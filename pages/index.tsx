@@ -7,7 +7,7 @@ const InvoicePDF = dynamic(() => import("./pdf"), {
   ssr: false,
 });
 
-const pdfData: PdfPageProps = {
+const defaultData: PdfPageProps = {
   views: [
     {
       columns: 1,
@@ -142,19 +142,31 @@ const pdfData: PdfPageProps = {
 const View = () => {
   const [client, setClient] = useState(false);
   const [viewPdf, setViewPdf] = useState(false);
+  const [pdfData, setpdfData] = useState(defaultData);
 
   const showPdfHandler = () => {
+    const storage:string = localStorage.getItem("pdfContent") || '';
+    const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
+    setpdfData(activeData);
     setViewPdf(true);
-  }
+  };
 
   useEffect(() => {
     setClient(true);
   }, []);
 
   return (
-    <div className={viewPdf ? 'pdf_view' : 'app_view'}>
-      <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
-      {!viewPdf && <AppPage onShowPdf={showPdfHandler} />}
+    <div className="flex relative w-full">
+      <div className={viewPdf ? "pdf_view" : "app_view"}>
+        <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
+      </div>
+      {!viewPdf ? (
+        <AppPage onShowPdf={showPdfHandler} />
+      ) : (
+        <div className="pdf_view relative">
+          <AppPage onShowPdf={showPdfHandler} />
+        </div>
+      )}
     </div>
   );
 };

@@ -57,13 +57,5 @@ export const PdfPage: FC<PdfPageProps> = ({ views, pageType, pageTheme }) => {
 PdfPage.defaultProps = {
   pageType: 'default',
   pageTheme: 'default',
-  views: [
-    {
-      columns: 1,
-      variation: {
-        type: "title",
-        label: "Página de sumas",
-      },
-    },
-  ],
+  views: [],
 };
