@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
 
 export interface StepTwoProps {
@@ -6,32 +6,31 @@ export interface StepTwoProps {
   views?: "init" | "selection" | "";
 }
 
-export const StepTwo: FC<StepTwoProps> = ({
-  label,
-  views,
-}) => {
-  const [nextView, setNextView] = useState<'title' | 'operation' | ''>('');
+export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
+  const [addButton, setaddButton] = useState<string>('');
+  const [nextView, setNextView] = useState<"title" | "operation" | "">("");
   const [fieldSets, setfieldSets] = useState<JSX.Element[]>([]);
-  const fieldSetsRef = useRef([]);
 
   const onSelectType = (e: any) => {
     setNextView(e.target.value);
+    setaddButton('');
   };
 
-  const checkFieldSet = (e: any, type: "title" | "operation" ) => {
+  const checkFieldSet = (e: any, type: "title" | "operation" | 'addition') => {
+    if(type == 'title'){
+      setaddButton(e.target.value);
+      return;
+    }
     console.log(e.target.value);
   };
 
-  const addFieldSet = (type: "title" | "operation" ) => {
+  const addFieldSet = (type: "title" | "operation") => {
     setNextView("");
-    setfieldSets((fieldSets) => [
-      ...fieldSets,
-      getFieldSet(type, true),
-    ]);
+    setfieldSets((fieldSets) => [...fieldSets, getFieldSet(type, true)]);
   };
 
-  const getFieldSet = (type: "title" | "operation", readOnly?: boolean) => {
-    const currentRef = fieldSets.length+1;
+  const getFieldSet = (type: "title" | "operation" | 'addition', readOnly?: boolean) => {
+    const currentRef = fieldSets.length;
     switch (type) {
       case "title":
         return (
@@ -40,10 +39,9 @@ export const StepTwo: FC<StepTwoProps> = ({
               legend="Añade el título"
               name="pageTheme"
               type="text"
-              options={[{ value: "default", label: "" }]}
+              options={[{ value: addButton ? addButton : 'Add title', label: "" }]}
               onOptionChange={(e) => checkFieldSet(e, type)}
-              ref={fieldSetsRef.current[currentRef] }
-              key={`fieldset-${currentRef}`}
+              key={readOnly ? `fieldset-${currentRef}` : ''}
               readOnly={readOnly}
             />
           </>
@@ -60,11 +58,26 @@ export const StepTwo: FC<StepTwoProps> = ({
               { value: "multiply", label: "Multipicaciones" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            ref={fieldSetsRef.current[currentRef] }
-            key={`fieldset-${currentRef}`}
+            key={readOnly ? `fieldset-${currentRef}` : type}
             readOnly={readOnly}
           />
         );
+        case "addition":
+          return (
+            <Fieldset
+              legend="Selecciona la operión que quires añadir"
+              name="operaions"
+              type="radio"
+              options={[
+                { value: "addition", label: "Sumas" },
+                { value: "subtraction", label: "Restas" },
+                { value: "multiply", label: "Multipicaciones" },
+              ]}
+              onOptionChange={(e) => checkFieldSet(e, type)}
+              key={readOnly ? `fieldset-${currentRef}` : ''}
+              readOnly={readOnly}
+            />
+          );
     }
   };
 
@@ -81,14 +94,14 @@ export const StepTwo: FC<StepTwoProps> = ({
             { value: "operation", label: "Operaciones" },
           ]}
           onOptionChange={onSelectType}
-          ref={fieldSetsRef.current[0] }
-          key={'fieldset-0'}
+          key={"fieldset-init"}
         />
       )}
       {nextView && (
         <div className="bg-sky-300 p-8 rounded-xl mb-8">
-        {getFieldSet(nextView, false)}
-        <button
+          {getFieldSet(nextView, false)}
+          {addButton && (
+            <button
               type="button"
               value="añadir"
               onClick={() => addFieldSet(nextView)}
@@ -96,6 +109,7 @@ export const StepTwo: FC<StepTwoProps> = ({
             >
               Añadir
             </button>
+          )}
         </div>
       )}
       {fieldSets.length > 0 && fieldSets.map((fieldSet) => <>{fieldSet}</>)}

@@ -1,11 +1,10 @@
-import { FC, LegacyRef, useState } from "react";
+import { FC, LegacyRef, useRef } from "react";
 //import classes from "./Fieldset.module";
 
 export interface FieldsetProps {
   legend?: string;
   name: string;
   type: "radio" | "checkbox" | "text";
-  ref: LegacyRef<HTMLInputElement> | undefined;
   readOnly?: boolean;
   options: {
     value: string;
@@ -21,9 +20,10 @@ export const Fieldset: FC<FieldsetProps> = ({
   type,
   options,
   onOptionChange,
-  ref,
   readOnly,
 }) => {
+  const ref = useRef<HTMLInputElement>(null);
+  
   return (
     <fieldset className="bg-sky-100/50 p-8 rounded-xl mb-8 flex">
       <legend className="text-sm font-semibold leading-6 text-gray-900">
