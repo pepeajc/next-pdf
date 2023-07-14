@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
+import { CustomFieldSet } from "../AppUI/CustomFieldSet";
+import { FieldsList, OperationTypes } from "./FieldsList";
 
 export interface StepTwoProps {
   label?: string;
@@ -7,101 +9,31 @@ export interface StepTwoProps {
 }
 
 export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
-  const [addButton, setaddButton] = useState<string>("");
-  const [nextView, setNextView] = useState<"title" | "operation" | "">("");
+  const [fielfValue, setFielfValue] = useState<string>("");
+  const [addButton, setaddButton] = useState<boolean>(false);
+  const [nextView, setNextView] = useState<
+    "title" | "operation" | "addition" | ""
+  >("");
   const [fieldSets, setfieldSets] = useState<JSX.Element[]>([]);
+
+  const addFieldSet = (type: OperationTypes) => {
+    setfieldSets((fieldSets) => [
+      ...fieldSets,
+      <CustomFieldSet
+        type={type}
+        currentRef={`fieldsList-${fieldSets.length}`}
+        key={fieldSets.length}
+        readOnly={true}
+        placeholder={fielfValue}
+      />,
+    ]);
+    setFielfValue("");
+    setNextView("");
+  };
 
   const onSelectType = (e: any) => {
     setNextView(e.target.value);
-    setaddButton("");
-  };
-
-  const checkFieldSet = (e: any, type: "title" | "operation" | "addition") => {
-    if (type == "title") {
-      setaddButton(e.target.value);
-      return;
-    }
-    if(e.target.value === 'addition'){
-      setNextView(e.target.value);
-      setaddButton(e.target.value);
-    };
-    console.log(e.target.value)
-  };
-
-  const addFieldSet = (type: "title" | "operation") => {
-    setfieldSets((fieldSets) => [...fieldSets, getFieldSet(type, true)]);
-  };
-
-  const getFieldSet = (
-    type: "title" | "operation" | "addition",
-    readOnly?: boolean
-  ) => {
-    const currentRef = fieldSets.length;
-    switch (type) {
-      case "title":
-        return (
-          <>
-            <Fieldset
-              legend="Añade el título"
-              name="pageTheme"
-              type="text"
-              options={[
-                { value: addButton ? addButton : "Add title", label: "" },
-              ]}
-              onOptionChange={(e) => checkFieldSet(e, type)}
-              key={readOnly ? `fieldset-${currentRef}` : `EDITABLE-${currentRef}`}
-              readOnly={readOnly}
-            />
-          </>
-        );
-      case "operation":
-        return (
-          <Fieldset
-            legend="Selecciona la operión que quires añadir"
-            name="operaions"
-            type="radio"
-            options={[
-              { value: "addition", label: "Sumas" },
-              { value: "subtraction", label: "Restas" },
-              { value: "multiply", label: "Multipicaciones" },
-            ]}
-            onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : type}
-            readOnly={readOnly}
-          />
-        );
-      case "addition":
-        return (
-          <>
-            <Fieldset
-              legend="Número de Filas"
-              name="filas"
-              type="select"
-              options={[
-                { value: "2", label: "2" },
-                { value: "3", label: "3" },
-                { value: "4", label: "4" },
-              ]}
-              onOptionChange={(e) => checkFieldSet(e, type)}
-              key={readOnly ? `fieldset-${currentRef}` : ""}
-              readOnly={readOnly}
-            />
-             <Fieldset
-              legend="Dígitos por fila"
-              name="filas"
-              type="select"
-              options={[
-                { value: "3", label: "3" },
-                { value: "4", label: "4" },
-                { value: "5", label: "5" },
-              ]}
-              onOptionChange={(e) => checkFieldSet(e, type)}
-              key={readOnly ? `fieldset-${currentRef}` : ""}
-              readOnly={readOnly}
-            />
-          </>
-        );
-    }
+    setaddButton(false);
   };
 
   return (
@@ -131,7 +63,16 @@ export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
             Volver
           </button>
           <div className="bg-sky-300 p-8 rounded-xl mb-8">
-            {getFieldSet(nextView, false)}
+            <CustomFieldSet
+              type={nextView}
+              currentRef="0"
+              onFieldReady={() => {
+                setaddButton(true);
+              }}
+              updateValue={(value) => {
+                setFielfValue(value);
+              }}
+            />
             {addButton && (
               <button
                 type="button"
@@ -145,15 +86,7 @@ export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
           </div>
         </>
       )}
-      {fieldSets.length > 0 &&
-        fieldSets.map((fieldSet) => (
-          <>
-            <p className="m-8 text-center uppercase tracking-wider">
-              Campos añadidos
-            </p>
-            {fieldSet}
-          </>
-        ))}
+      <FieldsList fieldSets={fieldSets} />
     </>
   );
 };
