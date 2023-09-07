@@ -60,7 +60,7 @@ export const AppProcess: FC<AppProcessProps> = ({
   return (
     <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
       {/* <StepOne onOptionChange={onOptionChange} onStepReady={activeNextStep} /> */}
-      <StepTwo onOptionChange={onOptionChange} onStepReady={activeNextStep} />
+      <StepTwo />
       {nextStep && (
         <button
           className="rounded-full px-8 py-3 uppercase text-sm text-sky-700 ring-1 ring-sky-700 

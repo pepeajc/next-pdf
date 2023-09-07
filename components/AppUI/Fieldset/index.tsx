@@ -62,6 +62,7 @@ export const Fieldset: FC<FieldsetProps> = ({
           id={name}
           ref={ref}
           onClick={(e) => onOptionChange(e)}
+          disabled={readOnly}
         >
           {options.map((option, index) => (
             <option key={`${option.value}-${index}`} value={option.value}>

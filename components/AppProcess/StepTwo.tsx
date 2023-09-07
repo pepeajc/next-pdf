@@ -1,32 +1,36 @@
 import { FC, useState } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
-import { CustomFieldSet } from "../AppUI/CustomFieldSet";
+import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import { FieldsList, OperationTypes } from "./FieldsList";
 
 export interface StepTwoProps {
   label?: string;
-  views?: "init" | "selection" | "";
 }
 
-export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
-  const [fielfValue, setFielfValue] = useState<string>("");
+export const StepTwo: FC<StepTwoProps> = ({ label }) => {
+  const [fielfValue, setFielfValue] = useState<any>("");
   const [addButton, setaddButton] = useState<boolean>(false);
-  const [nextView, setNextView] = useState<
-    "title" | "operation" | "addition" | ""
-  >("");
+  const [nextView, setNextView] = useState<CustomFieldSetProps['type']>("");
   const [fieldSets, setfieldSets] = useState<JSX.Element[]>([]);
+  const [fieldSetsData, setfieldSetsData] = useState<Object[]>([]);
 
   const addFieldSet = (type: OperationTypes) => {
-    setfieldSets((fieldSets) => [
-      ...fieldSets,
-      <CustomFieldSet
-        type={type}
-        currentRef={`fieldsList-${fieldSets.length}`}
-        key={fieldSets.length}
-        readOnly={true}
-        placeholder={fielfValue}
-      />,
-    ]);
+    console.log(fieldSetsData);
+    const updatedData = {"type":type, 'value': fielfValue };
+    const objectData = fieldSetsData;
+    fieldSetsData.push(updatedData);
+    setfieldSetsData(objectData);
+
+    // setfieldSets((fieldSets) => [
+    //   ...fieldSets,
+    //   <CustomFieldSet
+    //     type={type}
+    //     currentRef={`fieldsList-${fieldSets.length}`}
+    //     key={fieldSets.length}
+    //     readOnly={true}
+    //     placeholder={fielfValue}
+    //   />,
+    // ]);
     setFielfValue("");
     setNextView("");
   };
@@ -69,8 +73,9 @@ export const StepTwo: FC<StepTwoProps> = ({ label, views }) => {
               onFieldReady={() => {
                 setaddButton(true);
               }}
-              updateValue={(value) => {
+              updateValue={(value, type) => {
                 setFielfValue(value);
+                if (type) setNextView(type);
               }}
             />
             {addButton && (

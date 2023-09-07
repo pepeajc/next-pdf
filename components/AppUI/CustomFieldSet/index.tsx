@@ -1,14 +1,14 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Fieldset } from "../Fieldset";
 //import classes from "./CustoFieldSet.module";
 
-interface CustomFieldSetProps {
-  type?: "title" | "operation" | "addition" | "";
+export interface CustomFieldSetProps {
+  type: "title" | "operation" | "addition" | "subtraction" | "multiply" | "";
   readOnly?: boolean;
   placeholder?: string;
   currentRef?: string;
   onFieldReady?: () => void;
-  updateValue?: (value: string) => void;
+  updateValue?: (value: string, type: CustomFieldSetProps["type"]) => void;
 }
 
 export const CustomFieldSet: FC<CustomFieldSetProps> = ({
@@ -19,21 +19,49 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
   onFieldReady,
   updateValue,
 }) => {
-  const checkFieldSet = (
-    e: any,
-    type: "title" | "operation" | "addition" | ""
-  ) => {
-    // if (type == "title") {
-    //   setaddButton(e.target.value !== "");
-    // }
-    // if (e.target.value === "addition") {
-    //   setNextView(e.target.value);
-    //   setaddButton(e.target.value);
-    // }
+  const [fielfValue, setFielfValue] = useState<any>({});
 
-    if (updateValue) updateValue(e.target.value);
-    if (e.target.value !== "" && type === "title" && onFieldReady)
-      onFieldReady();
+  const defaultValues: any = {
+    addition: {
+      filas: "2",
+      digitos: "3",
+    },
+    subtraction: {
+      filas: "2",
+      digitos: "3",
+    },
+    multiply: {
+      multiplicando: "2",
+      multiplicador: "3",
+    },
+  };
+
+  const checkFieldSet = (e: any, type: CustomFieldSetProps["type"]) => {
+    switch (type) {
+      case "title":
+        if (e.target.value !== "" && onFieldReady) {
+          fielfValue[e.target.name] = e.target.value;
+          onFieldReady();
+        }
+      case "operation":
+        if (onFieldReady && type) {
+          type = e.target.value;
+          setFielfValue(defaultValues[type]);
+          onFieldReady();
+        }
+      case "addition":
+      case "subtraction":
+      case "multiply":
+        fielfValue[e.target.name] = e.target.value;
+    }
+
+    if (updateValue) {
+      if (Object.entries(fielfValue).length > 0) {
+        updateValue(fielfValue, type);
+      } else {
+        updateValue(defaultValues[type], type);
+      }
+    }
   };
 
   switch (type) {
@@ -42,13 +70,13 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
         <>
           <Fieldset
             legend="Añade el título"
-            name="pageTheme"
+            name="text"
             type="text"
             options={[
               { value: placeholder ? placeholder : "Add title", label: "" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : `EDITABLE-${currentRef}`}
+            key={readOnly ? `fieldset-${currentRef}` : null}
             readOnly={readOnly}
           />
         </>
@@ -56,7 +84,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
     case "operation":
       return (
         <Fieldset
-          legend="Selecciona la operión que quires añadir"
+          legend="Selecciona la operación que quires añadir"
           name="operaions"
           type="radio"
           options={[
@@ -65,11 +93,12 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             { value: "multiply", label: "Multipicaciones" },
           ]}
           onOptionChange={(e) => checkFieldSet(e, type)}
-          key={readOnly ? `fieldset-${currentRef}` : type}
+          key={readOnly ? `fieldset-${currentRef}` : null}
           readOnly={readOnly}
         />
       );
     case "addition":
+    case "subtraction":
       return (
         <>
           <Fieldset
@@ -82,12 +111,12 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "4", label: "4" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : ""}
+            key={readOnly ? `fieldset-${currentRef}` : null}
             readOnly={readOnly}
           />
           <Fieldset
             legend="Dígitos por fila"
-            name="filas"
+            name="digitos"
             type="select"
             options={[
               { value: "3", label: "3" },
@@ -100,6 +129,39 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
           />
         </>
       );
+      case "multiply":
+        return (
+          <>
+            <Fieldset
+              legend="Números del Multiplicando"
+              name="multiplicando"
+              type="select"
+              options={[
+                { value: "2", label: "2" },
+                { value: "3", label: "3" },
+                { value: "4", label: "4" },
+                { value: "5", label: "5" },
+              ]}
+              onOptionChange={(e) => checkFieldSet(e, type)}
+              key={readOnly ? `fieldset-${currentRef}` : null}
+              readOnly={readOnly}
+            />
+            <Fieldset
+              legend="Números del Multiplicandor"
+              name="multiplicador"
+              type="select"
+              options={[
+                { value: "2", label: "2" },
+                { value: "3", label: "3" },
+                { value: "4", label: "4" },
+                { value: "5", label: "5" },
+              ]}
+              onOptionChange={(e) => checkFieldSet(e, type)}
+              key={readOnly ? `fieldset-${currentRef}` : ""}
+              readOnly={readOnly}
+            />
+          </>
+        );
   }
   return null;
 };
