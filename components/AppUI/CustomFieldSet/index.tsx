@@ -63,7 +63,6 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
       }
     }
   };
-
   switch (type) {
     case "title":
       return (
