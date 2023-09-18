@@ -43,16 +43,19 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
           fielfValue[e.target.name] = e.target.value;
           onFieldReady();
         }
+      break;
       case "operation":
         if (onFieldReady && type) {
           type = e.target.value;
           setFielfValue(defaultValues[type]);
           onFieldReady();
         }
+      break;
       case "addition":
       case "subtraction":
       case "multiply":
         fielfValue[e.target.name] = e.target.value;
+      break;
     }
 
     if (updateValue) {

@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
-import { CustomFieldSet } from "../AppUI/CustomFieldSet";
+import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import React from "react";
-//import classes from "./CustoFieldSet.module";
-
-export type OperationTypes = "title" | "operation" | "addition" | "";
-
-interface FieldsListProps {
-  fieldSets: JSX.Element[];
+export interface FieldsListProps {
+  fieldSets: {
+    type: CustomFieldSetProps["type"];
+    value: any;
+  }[];
 }
 
 export const FieldsList: FC<FieldsListProps> = ({ fieldSets }) => {
@@ -16,7 +15,10 @@ export const FieldsList: FC<FieldsListProps> = ({ fieldSets }) => {
         <p className="m-8 text-center uppercase tracking-wider">
           Campos añadidos
         </p>
-        {fieldSets.map((fieldSet, index) => (<React.Fragment key={`fieldSet${index}`}>{ fieldSet }</React.Fragment>))}
+        {fieldSets?.map((fieldSet, index) => {
+          console.log(index + " - " + fieldSet);
+          return <p key={index}>{fieldSet.type}</p>;
+        })}
       </>
     );
   }
@@ -24,5 +26,10 @@ export const FieldsList: FC<FieldsListProps> = ({ fieldSets }) => {
 };
 
 FieldsList.defaultProps = {
-  fieldSets: [],
+  fieldSets: [
+    {
+      type: "",
+      value: [{}],
+    },
+  ],
 };
