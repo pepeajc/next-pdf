@@ -43,7 +43,7 @@ export const PdfSymbols: FC<PdfSymbolsProps> = ({
         <Svg
           style={styles.sign}
           width={width}
-          height={height}
+          height={1}
           viewBox="0 0 1995 499"
         >
           <Path d="M0 0V498.72H1994.88V0H0Z" fill={color} />

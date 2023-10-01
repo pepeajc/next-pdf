@@ -132,7 +132,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
             key={readOnly ? `fieldset-${currentRef}` : null}
-            readOnly={readOnly}
+            readOnly={type=== 'subtraction' ? true : readOnly}
           />
           <Fieldset
             legend="Dígitos por fila"

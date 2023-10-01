@@ -1,4 +1,10 @@
-import ReactPDF, { Line, Path, StyleSheet, Svg, Text } from "@react-pdf/renderer";
+import ReactPDF, {
+  Line,
+  Path,
+  StyleSheet,
+  Svg,
+  Text,
+} from "@react-pdf/renderer";
 import { FC } from "react";
 import { PdfSymbols } from "../PdfSymbols";
 
@@ -10,10 +16,9 @@ interface PdfBoxOperationProps {
 
 export interface operationProps {
   type?: "addition" | "subtraction" | "multiply";
-  rows?:
-    {
-      digits: number;
-    }[];
+  rows?: {
+    digits: number;
+  }[];
 }
 
 export const PdfBoxOperation: FC<PdfBoxOperationProps> = ({
@@ -30,29 +35,35 @@ export const PdfBoxOperation: FC<PdfBoxOperationProps> = ({
     },
   });
 
-  const getNumber = (digits: number = 0) => {
+  let subtractionFirstNumber: number;
+
+  const getNumber = (
+    digits: number = 0,
+    type: operationProps["type"],
+    position: number
+  ) => {
+    if (position === 1 && type === "subtraction")
+      return Math.floor(Math.random() * subtractionFirstNumber);
     let number = "";
     for (let i = 0; i < digits; i++) {
       number += Math.floor(Math.random() * 9);
     }
+    if (position === 0 && type === "subtraction")
+      subtractionFirstNumber = +number;
     return number;
   };
 
   return (
     <>
-      {operation?.rows?.map((item, index) =>
-           <Text key={`row-${index}`} style={styles.text}>{getNumber(item.digits)}</Text>
-      )};
-      <PdfSymbols width="20" variation={operation?.type} color="#CCCCCC"/>
+      {operation?.rows?.map((item, index) => (
+        <Text key={`row-${index}`} style={styles.text}>
+          {getNumber(item.digits, operation?.type, index)}
+        </Text>
+      ))}
+      ;
+      <PdfSymbols width="18" variation={operation?.type} color="#CCCCCC" />
       <Svg height="2" width="100%">
-        <Line
-          x1="0"
-          y1="0"
-          x2="300"
-          y2="0"
-          strokeWidth={2}
-          stroke="#CCCCCC"
-        />
+        <Line x1="0" y1="0" x2="300" y2="0" strokeWidth={2} stroke="#CCCCCC" />
       </Svg>
     </>
   );
@@ -62,13 +73,13 @@ PdfBoxOperation.defaultProps = {
   fontSize: "12px",
   operation: {
     type: "addition",
-    rows:[
+    rows: [
       {
         digits: 5,
       },
       {
         digits: 3,
-      }
+      },
     ],
   },
 };
