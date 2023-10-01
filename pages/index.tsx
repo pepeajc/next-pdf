@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/AppPage";
+import { FieldsListProps } from "@/components/AppProcess/FieldsList";
 import { PdfPageProps } from "@/components/PdfPage";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -142,12 +143,12 @@ const defaultData: PdfPageProps = {
 const View = () => {
   const [client, setClient] = useState(false);
   const [viewPdf, setViewPdf] = useState(false);
-  const [pdfData, setpdfData] = useState(defaultData);
+  const [pdfData, setpdfData] =  useState<PdfPageProps>(defaultData);
 
-  const showPdfHandler = () => {
-    const storage:string = localStorage.getItem("pdfContent") || '';
-    const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
-    setpdfData(activeData);
+  const showPdfHandler = (data: PdfPageProps) => {
+    // const storage:string = localStorage.getItem("pdfContent") || '';
+    // const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
+    setpdfData(data);
     setViewPdf(true);
   };
 
@@ -160,13 +161,9 @@ const View = () => {
       <div className={viewPdf ? "pdf_view" : "app_view"}>
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
       </div>
-      {!viewPdf ? (
-        <AppPage onShowPdf={showPdfHandler} />
-      ) : (
-        <div className="pdf_view relative">
-          <AppPage onShowPdf={showPdfHandler} />
-        </div>
-      )}
+      <div className={!viewPdf ? 'w-full' : 'pdf_view relative'}>
+        <AppPage onShowPdf={(data) => showPdfHandler(data)} />
+      </div>
     </div>
   );
 };

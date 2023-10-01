@@ -2,20 +2,24 @@ import { FC, useState } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
 import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import { FieldsList, FieldsListProps } from "./FieldsList";
+import { pdfDataService } from "@/services/pdfDataService";
 
 export interface StepTwoProps {
   label?: string;
+  previewPdf: (data: FieldsListProps["fieldSets"]) => void;
 }
 
-export const StepTwo: FC<StepTwoProps> = ({ label }) => {
+export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf }) => {
   const [fielfValue, setFielfValue] = useState<any>("");
   const [addButton, setaddButton] = useState<boolean>(false);
-  const [nextView, setNextView] = useState<CustomFieldSetProps['type']>("");
-  const [fieldSetsData, setfieldSetsData] = useState<FieldsListProps['fieldSets']>([]);
+  const [nextView, setNextView] = useState<CustomFieldSetProps["type"]>("");
+  const [fieldSetsData, setfieldSetsData] = useState<
+    FieldsListProps["fieldSets"]
+  >([]);
 
-  const addFieldSet = (type: CustomFieldSetProps['type']) => {
+  const addFieldSet = (type: CustomFieldSetProps["type"]) => {
     console.log(fieldSetsData);
-    const updatedData = {"type":type, 'value': fielfValue };
+    const updatedData = { type: type, value: fielfValue };
     const objectData = fieldSetsData;
     fieldSetsData.push(updatedData);
     setfieldSetsData(objectData);
@@ -64,7 +68,7 @@ export const StepTwo: FC<StepTwoProps> = ({ label }) => {
               }}
               updateValue={(value, type) => {
                 setFielfValue(value);
-                if (type !== 'title') setNextView(type);
+                if (type !== "title") setNextView(type);
               }}
             />
             {addButton && (
@@ -81,6 +85,14 @@ export const StepTwo: FC<StepTwoProps> = ({ label }) => {
         </>
       )}
       <FieldsList fieldSets={fieldSetsData} />
+      <button
+        type="button"
+        value="añadir"
+        onClick={() =>  previewPdf(pdfDataService.getpdfData(fieldSetsData))}
+        className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
+      >
+        Preview
+      </button>
     </>
   );
 };

@@ -1,14 +1,17 @@
-import { FC, useState } from "react";
-import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
+import { FC } from "react";
+import { CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import React from "react";
-export interface FieldsListProps {
-  fieldSets: {
+
+export interface FieldSets {
     type: CustomFieldSetProps["type"];
     value: any;
-  }[];
+}
+export interface FieldsListProps {
+  fieldSets: FieldSets[];
 }
 
 export const FieldsList: FC<FieldsListProps> = ({ fieldSets }) => {
+
   if (fieldSets.length > 0) {
     return (
       <>
@@ -16,9 +19,16 @@ export const FieldsList: FC<FieldsListProps> = ({ fieldSets }) => {
           Campos añadidos
         </p>
         {fieldSets?.map((fieldSet, index) => {
-          console.log(index + " - " + fieldSet);
-          return <p key={index}>{fieldSet.type}</p>;
-        })}
+          return (
+            <li key={index}>
+              <strong>{fieldSet.type}:</strong>
+              {Object.keys(fieldSet.value).map((key, index) => {
+                const data = `${key} - ${fieldSet.value[key]}`;
+                return <p key={`${key}-${index}`}>{data}</p>;
+              })}
+            </li>
+          );
+        })}        
       </>
     );
   }

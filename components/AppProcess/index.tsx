@@ -1,13 +1,13 @@
 import ReactPDF, { StyleSheet, Text } from "@react-pdf/renderer";
 import { FC, useState } from "react";
-import { Fieldset } from "../AppUI/Fieldset";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
+import { FieldsListProps } from "./FieldsList";
 
 export interface AppProcessProps {
   label?: string;
   type?: "init" | "selection";
-  onLinkClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  onLinkClick: (data: FieldsListProps["fieldSets"]) => void;
 }
 
 const defaultProps = {
@@ -44,7 +44,6 @@ export const AppProcess: FC<AppProcessProps> = ({
   onLinkClick,
 }) => {
   const [nextStep, setNextStep] = useState(false);
-  const [viewPdf, setViewPdf] = useState(false);
   
   if(!localStorage.getItem("pdfContent"))createDataPadf();
 
@@ -60,7 +59,7 @@ export const AppProcess: FC<AppProcessProps> = ({
   return (
     <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
       {/* <StepOne onOptionChange={onOptionChange} onStepReady={activeNextStep} /> */}
-      <StepTwo />
+      <StepTwo previewPdf={(data) => onLinkClick(data)} />
       {nextStep && (
         <button
           className="rounded-full px-8 py-3 uppercase text-sm text-sky-700 ring-1 ring-sky-700 
@@ -69,18 +68,6 @@ export const AppProcess: FC<AppProcessProps> = ({
         >
           Siguiente
         </button>
-      )}
-      {viewPdf && (
-      <div className="mt-10 flex items-center justify-center gap-x-6">
-        <a
-          href="#"
-          className="transition duration-500 rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:shadow-xl 
-              hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          onClick={onLinkClick}
-        >
-          View PDF
-        </a>
-      </div>
       )}
     </div>
   );

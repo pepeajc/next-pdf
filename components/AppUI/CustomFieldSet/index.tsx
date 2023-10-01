@@ -23,14 +23,17 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
 
   const defaultValues: any = {
     addition: {
+      totalOperaciones: "3",
       filas: "2",
       digitos: "3",
     },
     subtraction: {
+      totalOperaciones: "3",
       filas: "2",
       digitos: "3",
     },
     multiply: {
+      totalOperaciones: "3",
       multiplicando: "2",
       multiplicador: "3",
     },
@@ -43,19 +46,19 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
           fielfValue[e.target.name] = e.target.value;
           onFieldReady();
         }
-      break;
+        break;
       case "operation":
         if (onFieldReady && type) {
           type = e.target.value;
           setFielfValue(defaultValues[type]);
           onFieldReady();
         }
-      break;
+        break;
       case "addition":
       case "subtraction":
       case "multiply":
         fielfValue[e.target.name] = e.target.value;
-      break;
+        break;
     }
 
     if (updateValue) {
@@ -104,6 +107,21 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
       return (
         <>
           <Fieldset
+            legend="¿Cuantas operaciones quieres?"
+            name="totalOperaciones"
+            type="select"
+            options={[
+              { value: "3", label: "3" },
+              { value: "6", label: "6" },
+              { value: "9", label: "9" },
+              { value: "12", label: "12" },
+              { value: "15", label: "15" },
+            ]}
+            onOptionChange={(e) => checkFieldSet(e, type)}
+            key={readOnly ? `fieldset-${currentRef}` : null}
+            readOnly={readOnly}
+          />
+          <Fieldset
             legend="Número de Filas"
             name="filas"
             type="select"
@@ -131,39 +149,54 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
           />
         </>
       );
-      case "multiply":
-        return (
-          <>
-            <Fieldset
-              legend="Números del Multiplicando"
-              name="multiplicando"
-              type="select"
-              options={[
-                { value: "2", label: "2" },
-                { value: "3", label: "3" },
-                { value: "4", label: "4" },
-                { value: "5", label: "5" },
-              ]}
-              onOptionChange={(e) => checkFieldSet(e, type)}
-              key={readOnly ? `fieldset-${currentRef}` : null}
-              readOnly={readOnly}
-            />
-            <Fieldset
-              legend="Números del Multiplicandor"
-              name="multiplicador"
-              type="select"
-              options={[
-                { value: "2", label: "2" },
-                { value: "3", label: "3" },
-                { value: "4", label: "4" },
-                { value: "5", label: "5" },
-              ]}
-              onOptionChange={(e) => checkFieldSet(e, type)}
-              key={readOnly ? `fieldset-${currentRef}` : ""}
-              readOnly={readOnly}
-            />
-          </>
-        );
+    case "multiply":
+      return (
+        <>
+          <Fieldset
+            legend="¿Cuantas operaciones quieres?"
+            name="totalOperaciones"
+            type="select"
+            options={[
+              { value: "3", label: "3" },
+              { value: "6", label: "6" },
+              { value: "9", label: "9" },
+              { value: "12", label: "12" },
+              { value: "15", label: "15" },
+            ]}
+            onOptionChange={(e) => checkFieldSet(e, type)}
+            key={readOnly ? `fieldset-${currentRef}` : null}
+            readOnly={readOnly}
+          />
+          <Fieldset
+            legend="Números del Multiplicando (Línea superior)"
+            name="multiplicando"
+            type="select"
+            options={[
+              { value: "2", label: "2" },
+              { value: "3", label: "3" },
+              { value: "4", label: "4" },
+              { value: "5", label: "5" },
+            ]}
+            onOptionChange={(e) => checkFieldSet(e, type)}
+            key={readOnly ? `fieldset-${currentRef}` : null}
+            readOnly={readOnly}
+          />
+          <Fieldset
+            legend="Números del Multiplicandor (Línea Inferior)"
+            name="multiplicador"
+            type="select"
+            options={[
+              { value: "2", label: "2" },
+              { value: "3", label: "3" },
+              { value: "4", label: "4" },
+              { value: "5", label: "5" },
+            ]}
+            onOptionChange={(e) => checkFieldSet(e, type)}
+            key={readOnly ? `fieldset-${currentRef}` : ""}
+            readOnly={readOnly}
+          />
+        </>
+      );
   }
   return null;
 };
