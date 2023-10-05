@@ -24,7 +24,7 @@ export const PdfView: FC<PdfViewProps> = ({ columns, variation }) => {
   });
 
   return (
-    <View style={styles.view}>
+    <View style={styles.view} wrap={false}>
       {variation &&
         (() => {
           switch (variation.type) {
@@ -34,7 +34,7 @@ export const PdfView: FC<PdfViewProps> = ({ columns, variation }) => {
               return (
                 <PdfBoxOperation
                   title={variation.label}
-                  fontSize="23px"
+                  fontSize="20px"
                   operation={variation.operation}
                 />
               );

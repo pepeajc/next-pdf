@@ -1,4 +1,4 @@
-import ReactPDF, {
+import {
   StyleSheet,
   Text,
 } from "@react-pdf/renderer";

@@ -29,10 +29,10 @@ export const PdfPage: FC<PdfPageProps> = ({ views, pageType, pageTheme }) => {
     }
   });
 
-  const pagaConfig = pageType === "default" ? styles.page : styles.page;
+  const pageConfig = pageType === "default" ? styles.page : styles.page;
 
   return (
-    <Page size="A4" style={pagaConfig}>
+    <Page size="A4" style={pageConfig}>
       {views?.map((item, index) => (
         <PdfView
           key={"PdfView" + index}
