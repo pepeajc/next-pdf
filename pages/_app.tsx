@@ -2,9 +2,11 @@ import Head from "next/head";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
-import Router from "next/router";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
+  const slug = router.query.slug;
+  console.log("path" ,router.asPath)
+  if(slug && slug[0])console.log("slug" ,slug[0])
   return (
     <>
       <Script
