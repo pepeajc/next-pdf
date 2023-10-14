@@ -1,6 +1,6 @@
 import { AppPage } from "@/components/AppPage";
-import { FieldsListProps } from "@/components/AppProcess/FieldsList";
 import { PdfPageProps } from "@/components/PdfPage";
+import { useLocaleContext } from "@/context/LocaleContext";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -144,12 +144,14 @@ const View = () => {
   const [client, setClient] = useState(false);
   const [viewPdf, setViewPdf] = useState(false);
   const [pdfData, setpdfData] =  useState<PdfPageProps>(defaultData);
+  
+  const { getCurrentPage } = useLocaleContext();
+
+  //console.log(getCurrentPage());
 
   const showPdfHandler = (data: PdfPageProps) => {
-    // const storage:string = localStorage.getItem("pdfContent") || '';
-    // const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
-    setpdfData(data);
     setViewPdf(true);
+    setpdfData(data);
   };
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const View = () => {
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
       </div>
       <div className={!viewPdf ? 'w-full' : 'pdf_view relative'}>
-        <AppPage onShowPdf={(data) => showPdfHandler(data)} />
+        <AppPage onShowPdf={(data) => showPdfHandler(data)} process='init' />
       </div>
     </div>
   );

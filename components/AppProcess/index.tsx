@@ -24,11 +24,6 @@ const defaultProps = {
   ],
 };
 
-const createDataPadf = () => {
-  localStorage.setItem("pdfContent", JSON.stringify(defaultProps));
-  return localStorage.getItem("pdfContent");
-};
-
 const updateProcessData = (prop: string, value: string) => {
   const storage: string = localStorage.getItem("pdfContent") || "";
   const activeData = JSON.parse(storage);
@@ -44,8 +39,6 @@ export const AppProcess: FC<AppProcessProps> = ({
   onLinkClick,
 }) => {
   const [nextStep, setNextStep] = useState(false);
-  
-  if(!localStorage.getItem("pdfContent"))createDataPadf();
 
   const onOptionChange = (e: any) => {
     updateProcessData(e.target.name, e.target.value);
@@ -54,7 +47,6 @@ export const AppProcess: FC<AppProcessProps> = ({
   const activeNextStep = () => {
     setNextStep(true);
   };
-
 
   return (
     <div className="bg-sky-500/70 p-8 rounded-xl mb-8">

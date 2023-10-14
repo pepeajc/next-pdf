@@ -1,5 +1,4 @@
 import { AppPage } from "@/components/AppPage";
-import { FieldsListProps } from "@/components/AppProcess/FieldsList";
 import { PdfPageProps } from "@/components/PdfPage";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -158,11 +157,8 @@ const View = () => {
 
   return (
     <div className="flex relative w-full">
-      <div className={viewPdf ? "pdf_view" : "app_view"}>
-        <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
-      </div>
-      <div className={!viewPdf ? 'w-full' : 'pdf_view relative'}>
-        <AppPage onShowPdf={(data) => showPdfHandler(data)} />
+      <div className={'w-full'}>
+        <AppPage process='selection' />
       </div>
     </div>
   );

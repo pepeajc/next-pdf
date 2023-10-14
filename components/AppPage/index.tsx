@@ -7,31 +7,25 @@ import { AppBackGround } from "../AppBackGround";
 import { FieldsListProps } from "../AppProcess/FieldsList";
 
 interface AppPageProps extends AppProcessProps {
-  onShowPdf: (data: FieldsListProps["fieldSets"]) => void;
+  onShowPdf?: (data: FieldsListProps["fieldSets"]) => void;
+  process:  "init" | "selection";
 }
 
-export const AppPage: FC<AppPageProps> = ({ onShowPdf, label }) => {
-  const [process, setProcess] = useState<"init" | "selection">();
-
-  const startProcess = () => {
-    setProcess("init");
-  };
+export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = 'init' }) => {
 
   return (
     <>
       <Header />
       <AppBackGround />
       <div className="mx-auto w-full max-w-2xl px-12 py-32 sm:py-48 lg:py-56">
-          {process && <AppProcess type={process}  onLinkClick={(data) => onShowPdf(data)} />}
-          {!process && (
+          {process === 'init' && onShowPdf && <AppProcess type={process}  onLinkClick={(data) => onShowPdf(data)} />}
+          {process === 'selection' && (
             <>
               <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div className="relative rounded-full px-8 py-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/30">
-                  {label}{" "}
                   <Link
-                    href="#"
+                    href="/operations/init"
                     className="font-semibold text-blue-600"
-                    onClick={startProcess}
                   >
                     <span className="absolute inset-0" aria-hidden="true" />
                     Adelante <span aria-hidden="true">&rarr;</span>

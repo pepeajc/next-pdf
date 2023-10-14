@@ -2,11 +2,12 @@ import Head from "next/head";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Script from "next/script";
+import { LocaleContextProvider } from "@/context/LocaleContext";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   const slug = router.query.slug;
-  console.log("path" ,router.asPath)
-  if(slug && slug[0])console.log("slug" ,slug[0])
+  // console.log("path", router.asPath);
+  // if (slug && slug[0]) console.log("slug", slug[0]);
   return (
     <>
       <Script
@@ -29,7 +30,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <title>Welcome!</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <Component {...pageProps} />
+      <LocaleContextProvider page={slug && slug[0]}>
+        <Component {...pageProps} />
+      </LocaleContextProvider>
     </>
   );
 }
