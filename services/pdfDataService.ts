@@ -90,12 +90,16 @@ const getPdfViewData = (viewData: FieldSets) => {
   return viewDataFiltered;
 };
 
-const getpdfData = (pageData: FieldsListProps["fieldSets"]) => {
+const getpdfData = (
+  pageData: FieldsListProps["fieldSets"],
+  layOutData: any
+) => {
   let pageDataFiltered: PdfPageProps | any = { views: [] };
   pageData.map((field) => {
     pageDataFiltered.views.push(...getPdfViewData(field));
   });
-  return pageDataFiltered;
+  console.log({...layOutData, ...pageDataFiltered })
+  return { ...layOutData, ...pageDataFiltered };
 };
 
 export const pdfDataService = {

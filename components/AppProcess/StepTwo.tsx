@@ -3,13 +3,15 @@ import { Fieldset } from "../AppUI/Fieldset";
 import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import { FieldsList, FieldsListProps } from "./FieldsList";
 import { pdfDataService } from "@/services/pdfDataService";
+import { LayOutProps } from ".";
 
 export interface StepTwoProps {
   label?: string;
   previewPdf: (data: FieldsListProps["fieldSets"]) => void;
+  layOutData?: LayOutProps;
 }
 
-export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf }) => {
+export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf, layOutData }) => {
   const [fielfValue, setFielfValue] = useState<any>("");
   const [addButton, setaddButton] = useState<boolean>(false);
   const [nextView, setNextView] = useState<CustomFieldSetProps["type"]>("");
@@ -18,12 +20,10 @@ export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf }) => {
   >([]);
 
   const addFieldSet = (type: CustomFieldSetProps["type"]) => {
-    console.log(fieldSetsData);
     const updatedData = { type: type, value: fielfValue };
     const objectData = fieldSetsData;
     fieldSetsData.push(updatedData);
     setfieldSetsData(objectData);
-
     setFielfValue("");
     setNextView("");
   };
@@ -84,11 +84,11 @@ export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf }) => {
           </div>
         </>
       )}
-      <FieldsList fieldSets={fieldSetsData} />
+      <FieldsList fieldSets={fieldSetsData} layOutData={layOutData} />
       <button
         type="button"
         value="añadir"
-        onClick={() =>  previewPdf(pdfDataService.getpdfData(fieldSetsData))}
+        onClick={() =>  previewPdf(pdfDataService.getpdfData(fieldSetsData, layOutData))}
         className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
       >
         Preview
