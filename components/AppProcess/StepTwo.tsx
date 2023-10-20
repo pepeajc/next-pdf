@@ -11,7 +11,11 @@ export interface StepTwoProps {
   layOutData?: LayOutProps;
 }
 
-export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf, layOutData }) => {
+export const StepTwo: FC<StepTwoProps> = ({
+  label,
+  previewPdf,
+  layOutData,
+}) => {
   const [fielfValue, setFielfValue] = useState<any>("");
   const [addButton, setaddButton] = useState<boolean>(false);
   const [nextView, setNextView] = useState<CustomFieldSetProps["type"]>("");
@@ -32,7 +36,6 @@ export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf, layOutData }) => 
     setNextView(e.target.value);
     setaddButton(false);
   };
-
   return (
     <>
       {label && <h3>{label}</h3>}
@@ -85,14 +88,18 @@ export const StepTwo: FC<StepTwoProps> = ({ label, previewPdf, layOutData }) => 
         </>
       )}
       <FieldsList fieldSets={fieldSetsData} layOutData={layOutData} />
-      <button
-        type="button"
-        value="añadir"
-        onClick={() =>  previewPdf(pdfDataService.getpdfData(fieldSetsData, layOutData))}
-        className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
-      >
-        Preview
-      </button>
+      {fieldSetsData.length > 0 && (
+        <button
+          type="button"
+          value="añadir"
+          onClick={() =>
+            previewPdf(pdfDataService.getpdfData(fieldSetsData, layOutData))
+          }
+          className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
+        >
+          Preview
+        </button>
+      )}
     </>
   );
 };

@@ -7,7 +7,7 @@ import { FieldsListProps } from "./FieldsList";
 export interface AppProcessProps {
   label?: string;
   type?: "init" | "selection";
-  onLinkClick: (data: FieldsListProps["fieldSets"]) => void;
+  onLinkClick?: (data: FieldsListProps["fieldSets"]) => void;
 }
 
 export interface LayOutProps {
@@ -44,7 +44,7 @@ export const AppProcess: FC<AppProcessProps> = ({
           }}
         />
       )}
-      {nextStep === "content" && (
+      {nextStep === "content" && onLinkClick && (
         <StepTwo
           previewPdf={(data) => onLinkClick(data)}
           layOutData={layOutData}
