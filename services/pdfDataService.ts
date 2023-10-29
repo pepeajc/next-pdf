@@ -98,7 +98,6 @@ const getpdfData = (
   pageData.map((field) => {
     pageDataFiltered.views.push(...getPdfViewData(field));
   });
-  console.log({...layOutData, ...pageDataFiltered })
   return { ...layOutData, ...pageDataFiltered };
 };
 

@@ -145,8 +145,6 @@ const View = () => {
   const [pdfData, setpdfData] =  useState<PdfPageProps>(defaultData);
 
   const showPdfHandler = (data: PdfPageProps) => {
-    // const storage:string = localStorage.getItem("pdfContent") || '';
-    // const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
     setpdfData(data);
     setViewPdf(true);
   };

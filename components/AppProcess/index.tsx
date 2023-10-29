@@ -2,12 +2,13 @@ import ReactPDF, { StyleSheet, Text } from "@react-pdf/renderer";
 import { FC, useState } from "react";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
-import { FieldsListProps } from "./FieldsList";
+import { useLocaleContext } from "@/context/LocaleContext";
+import { GlobalFieldsList } from "./GlobalFieldsList";
 
 export interface AppProcessProps {
   label?: string;
   type?: "init" | "selection";
-  onLinkClick?: (data: FieldsListProps["fieldSets"]) => void;
+  onLinkClick?: () => void;
 }
 
 export interface LayOutProps {
@@ -21,21 +22,17 @@ export const AppProcess: FC<AppProcessProps> = ({
   onLinkClick,
 }) => {
   const [nextStep, setNextStep] = useState<"layout" | "content" | undefined>();
-  const [layOutData, setlayOutData] = useState<LayOutProps | any>({
-    pageType: "a3",
-    pageTheme: "default",
-  });
-
+  const { globalData } = useLocaleContext();
+  const [, updateState] = useState({});
   const updateProcessData = (prop: string, value: string) => {
-    layOutData[prop] = value;
+    globalData.globalLayOutProps[prop] = value;
   };
 
   const onOptionChange = (e: any) => {
     updateProcessData(e.target.name, e.target.value);
   };
-
   return (
-    <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
+    <>
       {!nextStep && (
         <StepOne
           onOptionChange={onOptionChange}
@@ -44,13 +41,25 @@ export const AppProcess: FC<AppProcessProps> = ({
           }}
         />
       )}
-      {nextStep === "content" && onLinkClick && (
-        <StepTwo
-          previewPdf={(data) => onLinkClick(data)}
-          layOutData={layOutData}
-        />
+      {nextStep && (
+        <StepTwo onStepReady={() => {
+          updateState({});
+        }}/>
       )}
-    </div>
+      <GlobalFieldsList />
+      {globalData.globalFieldSets.length > 0 && onLinkClick && (
+        <button
+          type="button"
+          value="añadir"
+          onClick={() => {
+            onLinkClick();
+          }}
+          className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
+        >
+          Preview
+        </button>
+      )}
+    </>
   );
 };
 

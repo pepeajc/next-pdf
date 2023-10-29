@@ -1,35 +1,24 @@
 import { FC, useState } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
 import { CustomFieldSet, CustomFieldSetProps } from "../AppUI/CustomFieldSet";
-import { FieldsList, FieldsListProps } from "./FieldsList";
-import { pdfDataService } from "@/services/pdfDataService";
-import { LayOutProps } from ".";
+import { useLocaleContext } from "@/context/LocaleContext";
 
 export interface StepTwoProps {
   label?: string;
-  previewPdf: (data: FieldsListProps["fieldSets"]) => void;
-  layOutData?: LayOutProps;
+  onStepReady: () => void;
 }
 
-export const StepTwo: FC<StepTwoProps> = ({
-  label,
-  previewPdf,
-  layOutData,
-}) => {
+export const StepTwo: FC<StepTwoProps> = ({ label, onStepReady }) => {
   const [fielfValue, setFielfValue] = useState<any>("");
   const [addButton, setaddButton] = useState<boolean>(false);
   const [nextView, setNextView] = useState<CustomFieldSetProps["type"]>("");
-  const [fieldSetsData, setfieldSetsData] = useState<
-    FieldsListProps["fieldSets"]
-  >([]);
+  const { setAppData } = useLocaleContext();
 
   const addFieldSet = (type: CustomFieldSetProps["type"]) => {
     const updatedData = { type: type, value: fielfValue };
-    const objectData = fieldSetsData;
-    fieldSetsData.push(updatedData);
-    setfieldSetsData(objectData);
     setFielfValue("");
     setNextView("");
+    setAppData(null, updatedData);
   };
 
   const onSelectType = (e: any) => {
@@ -40,17 +29,19 @@ export const StepTwo: FC<StepTwoProps> = ({
     <>
       {label && <h3>{label}</h3>}
       {nextView === "" && (
-        <Fieldset
-          legend="Qué quieres añadir"
-          name="viewType"
-          type="radio"
-          options={[
-            { value: "title", label: "Título" },
-            { value: "operation", label: "Operaciones" },
-          ]}
-          onOptionChange={onSelectType}
-          key={"fieldset-init"}
-        />
+        <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
+          <Fieldset
+            legend="Qué quieres añadir"
+            name="viewType"
+            type="radio"
+            options={[
+              { value: "title", label: "Título" },
+              { value: "operation", label: "Operaciones" },
+            ]}
+            onOptionChange={onSelectType}
+            key={"fieldset-init"}
+          />
+        </div>
       )}
       {nextView && (
         <>
@@ -78,7 +69,10 @@ export const StepTwo: FC<StepTwoProps> = ({
               <button
                 type="button"
                 value="añadir"
-                onClick={() => addFieldSet(nextView)}
+                onClick={() => {
+                  addFieldSet(nextView);
+                  onStepReady();
+                }}
                 className="bg-sky-400 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
               >
                 Añadir
@@ -86,19 +80,6 @@ export const StepTwo: FC<StepTwoProps> = ({
             )}
           </div>
         </>
-      )}
-      <FieldsList fieldSets={fieldSetsData} layOutData={layOutData} />
-      {fieldSetsData.length > 0 && (
-        <button
-          type="button"
-          value="añadir"
-          onClick={() =>
-            previewPdf(pdfDataService.getpdfData(fieldSetsData, layOutData))
-          }
-          className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
-        >
-          Preview
-        </button>
       )}
     </>
   );

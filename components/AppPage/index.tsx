@@ -4,10 +4,9 @@ import { AppProcess, AppProcessProps } from "../AppProcess";
 import { SectionHeader } from "../AppUI/SectionHeader";
 import Link from "next/link";
 import { AppBackGround } from "../AppBackGround";
-import { FieldsListProps } from "../AppProcess/FieldsList";
 
 interface AppPageProps extends AppProcessProps {
-  onShowPdf?: (data: FieldsListProps["fieldSets"]) => void;
+  onShowPdf: () => void;
   process:  "init" | "selection";
 }
 
@@ -18,7 +17,7 @@ export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = 'init' }) => {
       <Header />
       <AppBackGround />
       <div className="mx-auto w-full max-w-2xl px-12 py-32 sm:py-48 lg:py-56">
-          {process === 'init' && onShowPdf && <AppProcess type={process}  onLinkClick={(data) => onShowPdf(data)} />}
+          {process === 'init' && onShowPdf && <AppProcess type={process}  onLinkClick={() => onShowPdf()} />}
           {process === 'selection' && (
             <>
               <div className="hidden sm:mb-8 sm:flex sm:justify-center">

@@ -1,5 +1,4 @@
-import ReactPDF, { StyleSheet, Text } from "@react-pdf/renderer";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
 
 export interface StepOneProps {
@@ -30,7 +29,6 @@ const checkField = (field: any) => {
 
 export const StepOne: FC<StepOneProps> = ({
   label,
-  type,
   onOptionChange,
   onStepReady,
 }) => {
@@ -38,9 +36,9 @@ export const StepOne: FC<StepOneProps> = ({
     if (checkField(e.target.name)) onStepReady();
     onOptionChange(e);
   };
-
+  
   return (
-    <>
+    <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
       {label && <h3>{label}</h3>}
       <Fieldset
         legend="Tamaño  de página"
@@ -62,7 +60,7 @@ export const StepOne: FC<StepOneProps> = ({
         ]}
         onOptionChange={onChecked}
       />
-    </>
+    </div>
   );
 };
 
