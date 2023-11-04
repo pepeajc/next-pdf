@@ -38,7 +38,7 @@ export const StepOne: FC<StepOneProps> = ({
   };
   
   return (
-    <div className="bg-sky-500/70 p-8 rounded-xl mb-8">
+    <>
       {label && <h3>{label}</h3>}
       <Fieldset
         legend="Tamaño  de página"
@@ -60,7 +60,7 @@ export const StepOne: FC<StepOneProps> = ({
         ]}
         onOptionChange={onChecked}
       />
-    </div>
+    </>
   );
 };
 

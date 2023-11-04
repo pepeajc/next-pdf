@@ -157,11 +157,11 @@ const View = () => {
   }, []);
 
   return (
-    <div className="flex relative w-full">
-      <div className={viewPdf ? "pdf_view" : "app_view"}>
+    <div className="flex fixed w-full h-full">
+      <div className={viewPdf ? "pdf_view" : "hidden"}>
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
       </div>
-      <div className={!viewPdf ? 'w-full' : 'pdf_view relative'}>
+      <div className={!viewPdf ? 'w-full' : 'app_view relative'}>
         <AppPage onShowPdf={() => showPdfHandler(pdfDataService.getpdfData(globalData.globalFieldSets, globalData.globalLayOutProps))} process='init' />
       </div>
     </div>

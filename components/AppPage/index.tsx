@@ -16,7 +16,7 @@ export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = 'init' }) => {
     <>
       <Header />
       <AppBackGround />
-      <div className="mx-auto w-full max-w-2xl px-12 py-32 sm:py-48 lg:py-56">
+      <div className="app-container">
           {process === 'init' && onShowPdf && <AppProcess type={process}  onLinkClick={() => onShowPdf()} />}
           {process === 'selection' && (
             <>

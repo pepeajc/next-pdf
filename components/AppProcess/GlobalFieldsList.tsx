@@ -19,11 +19,11 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = () => {
     <>
       {globalData.globalLayOutProps?.pageTheme !== '' &&
          <>
-         <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-sky-700">
+         <h3 className="mb-6 text-center uppercase tracking-wider font-bold text-xl text-teal-900">
            Layout config
          </h3>
-         <ul className="bg-sky-200 p-8 rounded-xl mb-12">
-           <li className="flex pb-2 mb-2  border-b-[1px] border-dashed border-sky-500">
+         <ul className="bg-white/40 p-8 mb-4">
+           <li className="flex pb-2 mb-2  border-b-[1px] border-dashed border-stone-400">
              <span className="flex-[0_0_100px] uppercase mr-4 text-right">
                Theme:
              </span>
@@ -42,19 +42,19 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = () => {
       }
       {globalData.globalFieldSets.length > 0 && (
         <>
-          <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-sky-700">
+          <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-teal-900">
             Campos añadidos
           </h3>
           {globalData.globalFieldSets?.map((fieldSet, index) => {
             return (
-              <div key={index} className="bg-sky-200 p-8 rounded-xl mb-8">
+              <div key={index} className="px-8">
                 <div className="flex mb-4">
                   <span className="flex-[0_0_150px] capitalize mr-4 text-right">
                    Insertion Type:
                   </span>
                   <p className="capitalize font-bold">{fieldSet.type}</p>
                 </div>
-                <ul>
+                <ul className="pb-8 mb-8 border-b-[1px] border-dashed border-stone-400">
                   {Object.keys(fieldSet.value).map((key, index) => {
                     return (
                       <li key={`${key}-${index}`} className="flex">

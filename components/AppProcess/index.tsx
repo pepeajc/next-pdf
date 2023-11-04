@@ -1,5 +1,5 @@
 import ReactPDF, { StyleSheet, Text } from "@react-pdf/renderer";
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { useLocaleContext } from "@/context/LocaleContext";
@@ -31,33 +31,59 @@ export const AppProcess: FC<AppProcessProps> = ({
   const onOptionChange = (e: any) => {
     updateProcessData(e.target.name, e.target.value);
   };
+  const barRef:any = useRef(null);
+
+  useEffect(() => {      
+      if (barRef && barRef.current) {
+      barRef.current.addEventListener("animationend", (e:AnimationEvent) => {
+        e.target?.classList.add("animationend");
+      });
+
+      return () => {
+        if (barRef && barRef.current) {
+          barRef.current.removeEventListener("animationend", null);
+        }
+      };
+    }
+  }, [nextStep]);
+
   return (
     <>
-      {!nextStep && (
-        <StepOne
-          onOptionChange={onOptionChange}
-          onStepReady={() => {
-            setNextStep("content");
-          }}
-        />
-      )}
-      {nextStep && (
-        <StepTwo onStepReady={() => {
-          updateState({});
-        }}/>
-      )}
-      <GlobalFieldsList />
-      {globalData.globalFieldSets.length > 0 && onLinkClick && (
-        <button
-          type="button"
-          value="añadir"
-          onClick={() => {
-            onLinkClick();
-          }}
-          className="bg-sky-300 text-sky-800 px-5 py-1 mx-auto block rounded hover:bg-sky-200"
-        >
-          Preview
-        </button>
+      <div className="app-bar" ref={barRef}>
+        {!nextStep && (
+          <StepOne
+            onOptionChange={onOptionChange}
+            onStepReady={() => {
+              setNextStep("content");
+            }}
+          />
+        )}
+        {nextStep && (
+          <StepTwo
+            onStepReady={() => {
+              updateState({});
+            }}
+          />
+        )}
+      </div>
+      {globalData.globalLayOutProps.pageType && (
+        <div className="preview-bar" ref={barRef}>
+          <div className="bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg">
+            <GlobalFieldsList />
+            {globalData.globalFieldSets.length > 0 && onLinkClick && (
+              <button
+                type="button"
+                value="preview"
+                onClick={() => {
+                  onLinkClick();
+                }}
+                className="bg-stone-700/30 text-white px-5 py-1 mx-auto block rounded hover:bg-white/70 hover:text-stone-600 hover:shadow-md"
+              >
+                Preview
+              </button>
+            )}
+            </div>
+        </div>
       )}
     </>
   );

@@ -8,6 +8,8 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --header-height: 80px;
+  --bar-width: 35%;
 }
 
 a {
@@ -19,21 +21,72 @@ a {
   box-sizing: border-box;
 }
 
-.pdf_view {
-  width:50vw;
-  height: 100vw;
+.pdf_view,
+.app_view {
+  width: 30%;
+  height: 100%;
+
   & iframe {
     width: 100%;
     height: 100%;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.app_view {
+  width: 70%;
+}
+
+.app-container {
+  contain: layout;
+  height: 100%;
+}
+
+[class*="-bar"] {
+  @apply px-8 py-12 shadow-md;
+  height: calc(100% - var(--header-height));
+  position: fixed;
+  top: var(--header-height);
+  width: var(--bar-width);
+  animation: .35s ease-out slideBar;
+  transform-origin: left top;
+  & > fieldset, & > ul {
+    opacity: 0;
+    transition: .3s .2s opacity;
   }
-  body {
-    color: white;
-    background: black;
+  &.animationend {
+    & fieldset, & > ul {
+      opacity: 1;
+    }
+  }
+}
+
+.app-bar {
+  @apply bg-teal-500/50;
+  left: 0;
+}
+
+.preview-bar {
+  @apply bg-teal-700/50;
+  left: var(--bar-width);
+  width: calc(100% - var(--bar-width));
+}
+
+@keyframes slideBar {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fieldsetOpcity {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

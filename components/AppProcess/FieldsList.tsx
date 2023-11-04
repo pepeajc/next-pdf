@@ -17,10 +17,10 @@ export const FieldsList: FC<FieldsListProps> = ({ fieldSets, layOutData }) => {
     <>
       {layOutData && (
         <>
-          <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-sky-700">
+          <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-black">
             Layout config
           </h3>
-          <ul className="bg-sky-200 p-8 rounded-xl mb-12">
+          <ul className="bg-white/30 p-8 rounded-xl mb-12">
             <li className="flex pb-2 mb-2  border-b-[1px] border-dashed border-sky-500">
               <span className="flex-[0_0_100px] uppercase mr-4 text-right">
                 Theme:
@@ -45,7 +45,7 @@ export const FieldsList: FC<FieldsListProps> = ({ fieldSets, layOutData }) => {
           </h3>
           {fieldSets?.map((fieldSet, index) => {
             return (
-              <div key={index} className="bg-sky-200 p-8 rounded-xl mb-8">
+              <div key={index} className="bg-white/30 p-8 rounded-xl mb-8">
                 <div className="flex mb-4">
                   <span className="flex-[0_0_150px] capitalize mr-4 text-right">
                    Insertion Type:

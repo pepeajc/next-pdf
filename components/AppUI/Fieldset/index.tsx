@@ -1,5 +1,4 @@
-import { FC, LegacyRef, useRef } from "react";
-//import classes from "./Fieldset.module";
+import { FC, useRef } from "react";
 
 export interface FieldsetProps {
   legend?: string;
@@ -26,7 +25,7 @@ export const Fieldset: FC<FieldsetProps> = ({
 }) => {
   const ref = useRef(null);
   return (
-    <fieldset className="bg-sky-100/50 p-8 rounded-xl mb-8 flex">
+    <fieldset className="bg-white/30 p-8 rounded-xl mb-8 flex">
       <legend className="text-sm font-semibold leading-6 text-gray-900">
         {legend}
       </legend>
