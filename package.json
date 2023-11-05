@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
+    "@iconscout/react-unicons-solid": "^1.0.2",
     "@react-pdf/renderer": "^3.0.0",
     "@types/node": "20.1.4",
     "@types/react": "18.2.6",
