@@ -6,7 +6,7 @@ const View = () => {
   return (
     <div className="flex relative w-full">
       <div className={'w-full'}>
-      <AppPage onShowPdf={(data) => null} process='init' />
+      <AppPage process='init' />
       </div>
     </div>
   );

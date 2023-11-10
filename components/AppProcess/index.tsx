@@ -1,9 +1,9 @@
-import ReactPDF, { StyleSheet, Text } from "@react-pdf/renderer";
 import { FC, useEffect, useRef, useState } from "react";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { useLocaleContext } from "@/context/LocaleContext";
 import { GlobalFieldsList } from "./GlobalFieldsList";
+import { Button } from "../AppUI/Button";
 
 export interface AppProcessProps {
   label?: string;
@@ -21,8 +21,10 @@ export const AppProcess: FC<AppProcessProps> = ({
   type,
   onLinkClick,
 }) => {
-  const [nextStep, setNextStep] = useState<"layout" | "content" | undefined>();
-  const { globalData } = useLocaleContext();
+  const [nextStep, setNextStep] = useState<"layout" | "layout-edit" | "content" | undefined>(
+    "layout"
+  );
+  const { globalData, getCurrentPage } = useLocaleContext();
   const [, updateState] = useState({});
   const updateProcessData = (prop: string, value: string) => {
     globalData.globalLayOutProps[prop] = value;
@@ -31,11 +33,11 @@ export const AppProcess: FC<AppProcessProps> = ({
   const onOptionChange = (e: any) => {
     updateProcessData(e.target.name, e.target.value);
   };
-  const barRef:any = useRef(null);
+  const barRef: any = useRef(null);
 
-  useEffect(() => {      
-      if (barRef && barRef.current) {
-      barRef.current.addEventListener("animationend", (e:AnimationEvent) => {
+  useEffect(() => {
+    if (barRef && barRef.current) {
+      barRef.current.addEventListener("animationend", (e: any) => {
         e.target?.classList.add("animationend");
       });
 
@@ -50,15 +52,16 @@ export const AppProcess: FC<AppProcessProps> = ({
   return (
     <>
       <div className="app-bar" ref={barRef}>
-        {!nextStep && (
+        {nextStep?.includes("layout") && (
           <StepOne
             onOptionChange={onOptionChange}
             onStepReady={() => {
               setNextStep("content");
             }}
+            LayOutData={nextStep === 'layout-edit' && globalData.globalLayOutProps}
           />
         )}
-        {nextStep && (
+        {nextStep === "content" && (
           <StepTwo
             onStepReady={() => {
               updateState({});
@@ -69,20 +72,22 @@ export const AppProcess: FC<AppProcessProps> = ({
       {globalData.globalLayOutProps.pageType && (
         <div className="preview-bar" ref={barRef}>
           <div className="bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg">
-            <GlobalFieldsList />
+            <GlobalFieldsList
+              onLayOutEdit={() => {
+                setNextStep("layout-edit");
+              }}
+            />
             {globalData.globalFieldSets.length > 0 && onLinkClick && (
-              <button
+              <Button
                 type="button"
                 value="preview"
+                label="Preview"
                 onClick={() => {
                   onLinkClick();
                 }}
-                className="bg-stone-700/30 text-white px-5 py-1 mx-auto block rounded hover:bg-white/70 hover:text-stone-600 hover:shadow-md"
-              >
-                Preview
-              </button>
+              / >
             )}
-            </div>
+          </div>
         </div>
       )}
     </>

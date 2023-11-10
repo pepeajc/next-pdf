@@ -41,7 +41,7 @@ export const Fieldset: FC<FieldsetProps> = ({
               placeholder={type === "text" ? option.value : undefined}
               name={name}
               type={type}
-              checked={option.checked}
+              defaultChecked={option.checked}
               className="focus:ring-indigo-600 mr-2"
               onClick={type !== "text" ? (e) => onOptionChange(e) : undefined}
               onKeyUp={type === "text" ? (e) => onOptionChange(e) : undefined}
@@ -50,7 +50,7 @@ export const Fieldset: FC<FieldsetProps> = ({
               disabled={readOnly}
             />
 
-            <label htmlFor="comments" className="font-medium text-gray-900">
+            <label htmlFor={name} className="font-medium text-gray-900">
               {option.label}
             </label>
           </div>

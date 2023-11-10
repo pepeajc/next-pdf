@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
+import { LayOutProps } from ".";
 
 export interface StepOneProps {
   label?: string;
   type?: "init" | "selection";
   onOptionChange: (e: any) => void;
   onStepReady: () => void;
+  LayOutData?: LayOutProps;
 }
 
 const fields: any = [
@@ -31,12 +33,17 @@ export const StepOne: FC<StepOneProps> = ({
   label,
   onOptionChange,
   onStepReady,
+  LayOutData,
 }) => {
   const onChecked = (e: any) => {
-    if (checkField(e.target.name)) onStepReady();
+    if (checkField(e.target.name) && !LayOutData) onStepReady();
     onOptionChange(e);
   };
-  
+
+  if (LayOutData) {
+    console.log(fields);
+  }
+
   return (
     <>
       {label && <h3>{label}</h3>}
@@ -45,8 +52,16 @@ export const StepOne: FC<StepOneProps> = ({
         name="pageType"
         type="radio"
         options={[
-          { value: "a4", label: "A4" },
-          { value: "a3", label: "A3" },
+          {
+            value: "a4",
+            label: "A4",
+            checked: LayOutData?.pageType === "a4" ? true : undefined,
+          },
+          {
+            value: "a3",
+            label: "A3",
+            checked: LayOutData?.pageType === "a3" ? true : undefined,
+          },
         ]}
         onOptionChange={onChecked}
       />
@@ -55,8 +70,16 @@ export const StepOne: FC<StepOneProps> = ({
         name="pageTheme"
         type="radio"
         options={[
-          { value: "default", label: "Defautl" },
-          { value: "summer", label: "Summer" },
+          {
+            value: "default",
+            label: "Defautl",
+            checked: LayOutData?.pageTheme === "default" ? true : undefined,
+          },
+          {
+            value: "summer",
+            label: "Summer",
+            checked: LayOutData?.pageTheme === "summer" ? true : undefined,
+          },
         ]}
         onOptionChange={onChecked}
       />

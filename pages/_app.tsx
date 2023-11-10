@@ -7,7 +7,7 @@ import { LocaleContextProvider } from "@/context/LocaleContext";
 function MyApp({ Component, pageProps, router }: AppProps) {
   const slug = router.query.slug;
   // console.log("path", router.asPath);
-  // if (slug && slug[0]) console.log("slug", slug[0]);
+  // if (slug && slug[0]) console.log("slug", slug);
   return (
     <>
       <Script
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <title>Welcome!</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <LocaleContextProvider page={slug && slug[0]}>
+      <LocaleContextProvider page={slug}>
         <Component {...pageProps} />
       </LocaleContextProvider>
     </>

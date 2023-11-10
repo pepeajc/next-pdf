@@ -154,7 +154,7 @@ const View = () => {
   }, []);
 
   return (
-    <div className="flex relative w-full">
+    <div className="flex fixed w-full h-full">
       <div className={'w-full'}>
         <AppPage process='selection' />
       </div>

@@ -23,8 +23,16 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ```bash
 npm install @react-pdf/renderer --save
 ```
+
+https://pictogrammers.com/library/mdi/
+
 Documentation: 
 [https://react-pdf.org/advanced#orphan-&-widow-protection](https://react-pdf.org/advanced#orphan-&-widow-protection)
+
+## Material Design Icons
+
+Documentation: 
+[https://pictogrammers.com/library/mdi/](https://pictogrammers.com/library/mdi/)
 
 ## Learn More
 

@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { PropsWithChildren } from "react";
 
 export interface ILocaleContext {
-  getCurrentPage: () => TYPE_OF_PAGES | "";
+  getCurrentPage: () => LocaleContextProps['page'] ;
   globalData: {
     globalFieldSets: FieldSets[];
     globalLayOutProps?: LayOutProps | any;
@@ -19,7 +19,7 @@ export const LocaleContext = createContext<ILocaleContext>({
 });
 
 type LocaleContextProps = {
-  page: TYPE_OF_PAGES;
+  page: string | string[] | undefined;
 };
 
 export enum TYPE_OF_PAGES {
@@ -48,7 +48,7 @@ export const LocaleContextProvider = (
   //     }
   // }, [props.page, router]);
 
-  function getCurrentPage(): TYPE_OF_PAGES {
+  function getCurrentPage(): LocaleContextProps['page'] {
     return props.page;
   }
   function setAppData(layOutData: LayOutProps, fieldSettData: FieldSets) {

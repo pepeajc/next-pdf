@@ -6,7 +6,7 @@ import Link from "next/link";
 import { AppBackGround } from "../AppBackGround";
 
 interface AppPageProps extends AppProcessProps {
-  onShowPdf: () => void;
+  onShowPdf?: () => void;
   process:  "init" | "selection";
 }
 
@@ -16,10 +16,10 @@ export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = 'init' }) => {
     <>
       <Header />
       <AppBackGround />
-      <div className="app-container">
+      <div className="app-container h-[100vh]">
           {process === 'init' && onShowPdf && <AppProcess type={process}  onLinkClick={() => onShowPdf()} />}
           {process === 'selection' && (
-            <>
+            <div className="flex flex-col justify-center h-full max-w-[800px] mx-auto">
               <div className="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div className="relative rounded-full px-8 py-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/30">
                   <Link
@@ -37,7 +37,7 @@ export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = 'init' }) => {
               lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
               fugiat aliqua."
               />
-            </>
+            </div>
           )}
         </div>
     </>

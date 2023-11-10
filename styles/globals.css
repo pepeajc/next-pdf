@@ -47,11 +47,10 @@ a {
   position: fixed;
   top: var(--header-height);
   width: var(--bar-width);
-  animation: .35s ease-out slideBar;
   transform-origin: left top;
   & > fieldset, & > ul {
     opacity: 0;
-    transition: .3s .2s opacity;
+    transition: .3s .1s opacity;
   }
   &.animationend {
     & fieldset, & > ul {
@@ -62,13 +61,25 @@ a {
 
 .app-bar {
   @apply bg-teal-500/50;
+  animation: .35s ease-out slideBar;
   left: 0;
 }
 
 .preview-bar {
   @apply bg-teal-700/50;
+  animation: .45s ease-out slideBar;
   left: var(--bar-width);
   width: calc(100% - var(--bar-width));
+  > div {
+    opacity: 0;
+    transition: .3s .1s opacity;
+  }
+
+  &.animationend {
+    & div {
+      opacity: 1;
+    }
+  }
 }
 
 @keyframes slideBar {
