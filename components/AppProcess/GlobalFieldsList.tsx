@@ -13,10 +13,12 @@ export interface FieldSets {
 }
 export interface GlobalFieldsListProps {
   onLayOutEdit?: (LayOutData: LayOutProps) => void;
+  onOperationEdit?: (index: number) => void;
 }
 
 export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
   onLayOutEdit,
+  onOperationEdit,
 }) => {
   const { globalData } = useLocaleContext();
   return (
@@ -61,7 +63,7 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
           </h3>
           {globalData.globalFieldSets?.map((fieldSet, index) => {
             return (
-              <div key={index} className="px-8">
+              <div key={index} className="px-8 mb-8">
                 <div className="flex mb-4">
                   <span className="flex-[0_0_150px] capitalize mr-4 text-right">
                     Insertion Type:
@@ -81,6 +83,14 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
                     );
                   })}
                 </ul>
+                <Button
+                  type="button"
+                  value="edit"
+                  label="Edit"
+                  onClick={() => {
+                    if (onOperationEdit) onOperationEdit(index);
+                  }}
+                />
               </div>
             );
           })}

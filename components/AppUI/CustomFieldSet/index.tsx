@@ -1,14 +1,15 @@
 import { FC, useState } from "react";
 import { Fieldset } from "../Fieldset";
-//import classes from "./CustoFieldSet.module";
+import { useLocaleContext } from "@/context/LocaleContext";
 
 export interface CustomFieldSetProps {
   type: "title" | "operation" | "addition" | "subtraction" | "multiply" | "";
   readOnly?: boolean;
   placeholder?: string;
-  currentRef?: string;
+  currentRef?: number;
   onFieldReady?: () => void;
   updateValue?: (value: string, type: CustomFieldSetProps["type"]) => void;
+  editIndex?: number;
 }
 
 export const CustomFieldSet: FC<CustomFieldSetProps> = ({
@@ -18,8 +19,10 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
   currentRef,
   onFieldReady,
   updateValue,
+  editIndex,
 }) => {
   const [fielfValue, setFielfValue] = useState<any>({});
+  const { globalData } = useLocaleContext();
 
   const defaultValues: any = {
     addition: {
@@ -38,6 +41,17 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
       multiplicador: "3",
     },
   };
+
+  // al editar actualizamos fielfValue y los datos del parent con updateValue()
+  if (
+    editIndex !== undefined &&
+    Object.entries(fielfValue).length === 0 &&
+    updateValue
+  ) {
+    const { value } = globalData.globalFieldSets[editIndex];
+    setFielfValue(value);
+    editIndex = undefined;
+  }
 
   const checkFieldSet = (e: any, type: CustomFieldSetProps["type"]) => {
     switch (type) {
@@ -60,8 +74,8 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
         fielfValue[e.target.name] = e.target.value;
         break;
     }
-
     if (updateValue) {
+      // si tenemos almacenados valores en  fielfValue sino valores por defecto
       if (Object.entries(fielfValue).length > 0) {
         updateValue(fielfValue, type);
       } else {
@@ -78,10 +92,17 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             name="text"
             type="text"
             options={[
-              { value: placeholder ? placeholder : "Add title", label: "" },
+              {
+                placeholder:
+                  editIndex !== undefined &&
+                  globalData.globalFieldSets[editIndex].value.text
+                    ? globalData.globalFieldSets[editIndex].value.text
+                    : placeholder || "Add title",
+                label: "",
+              },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : null}
+            key={`fieldset-${type}-${currentRef}`}
             readOnly={readOnly}
           />
         </>
@@ -98,7 +119,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             { value: "multiply", label: "Multipicaciones" },
           ]}
           onOptionChange={(e) => checkFieldSet(e, type)}
-          key={readOnly ? `fieldset-${currentRef}` : null}
+          key={`fieldset-${type}-${currentRef}`}
           readOnly={readOnly}
         />
       );
@@ -118,7 +139,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "15", label: "15" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : null}
+            key={`fieldset-${type}-0-${currentRef}`}
             readOnly={readOnly}
           />
           <Fieldset
@@ -131,8 +152,8 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "4", label: "4" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : null}
-            readOnly={type=== 'subtraction' ? true : readOnly}
+            key={`fieldset-${type}-1-${currentRef}`}
+            readOnly={type === "subtraction" ? true : readOnly}
           />
           <Fieldset
             legend="Dígitos por fila"
@@ -144,7 +165,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "5", label: "5" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : ""}
+            key={`fieldset-${type}-2-${currentRef}`}
             readOnly={readOnly}
           />
         </>
@@ -164,7 +185,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "15", label: "15" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : null}
+            key={`fieldset-${type}-0-${currentRef}`}
             readOnly={readOnly}
           />
           <Fieldset
@@ -178,7 +199,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "5", label: "5" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : null}
+            key={`fieldset-${type}-1-${currentRef}`}
             readOnly={readOnly}
           />
           <Fieldset
@@ -192,7 +213,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
               { value: "5", label: "5" },
             ]}
             onOptionChange={(e) => checkFieldSet(e, type)}
-            key={readOnly ? `fieldset-${currentRef}` : ""}
+            key={`fieldset-${type}-2-${currentRef}`}
             readOnly={readOnly}
           />
         </>
@@ -205,5 +226,5 @@ CustomFieldSet.defaultProps = {
   type: "title",
   placeholder: "Add title",
   readOnly: false,
-  currentRef: "",
+  currentRef: 0,
 };

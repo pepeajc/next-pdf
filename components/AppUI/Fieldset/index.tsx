@@ -6,8 +6,9 @@ export interface FieldsetProps {
   type: "radio" | "checkbox" | "text" | "select";
   readOnly?: boolean;
   options: {
-    value: string;
+    value?: string;
     label: string;
+    placeholder?: string;
     checked?: boolean | undefined;
   }[];
   onOptionChange: (
@@ -37,8 +38,8 @@ export const Fieldset: FC<FieldsetProps> = ({
           >
             <input
               id={option.value}
-              value={type !== "text" ? option.value : undefined}
-              placeholder={type === "text" ? option.value : undefined}
+              value={option.value}
+              placeholder={option.placeholder}
               name={name}
               type={type}
               defaultChecked={option.checked}

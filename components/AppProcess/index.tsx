@@ -21,10 +21,10 @@ export const AppProcess: FC<AppProcessProps> = ({
   type,
   onLinkClick,
 }) => {
-  const [nextStep, setNextStep] = useState<"layout" | "layout-edit" | "content" | undefined>(
-    "layout"
-  );
-  const { globalData, getCurrentPage } = useLocaleContext();
+  const [nextStep, setNextStep] = useState<
+    "layout" | "layout-edit" | "content" | "content-edit" | string
+  >("layout");
+  const { globalData } = useLocaleContext();
   const [, updateState] = useState({});
   const updateProcessData = (prop: string, value: string) => {
     globalData.globalLayOutProps[prop] = value;
@@ -58,23 +58,41 @@ export const AppProcess: FC<AppProcessProps> = ({
             onStepReady={() => {
               setNextStep("content");
             }}
-            LayOutData={nextStep === 'layout-edit' && globalData.globalLayOutProps}
+            LayOutData={
+              nextStep === "layout-edit" && globalData.globalLayOutProps
+            }
           />
         )}
-        {nextStep === "content" && (
+        {nextStep.includes("content") && (
           <StepTwo
             onStepReady={() => {
               updateState({});
             }}
+            editIndex={
+              nextStep.includes("content-edit")
+                ? +nextStep.substring(nextStep.length - 1)
+                : undefined
+            }
+            getInitialView={() =>
+              nextStep.includes("content-edit")
+                ? globalData.globalFieldSets[
+                    +nextStep.substring(nextStep.length - 1)
+                  ].type
+                : ""
+            }
+            resetInitialView={() => setNextStep("content")}
           />
         )}
       </div>
       {globalData.globalLayOutProps.pageType && (
         <div className="preview-bar" ref={barRef}>
-          <div className="bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg">
+          <div className="bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg overflow-y-auto">
             <GlobalFieldsList
               onLayOutEdit={() => {
                 setNextStep("layout-edit");
+              }}
+              onOperationEdit={(index) => {
+                setNextStep("content-edit-" + index);
               }}
             />
             {globalData.globalFieldSets.length > 0 && onLinkClick && (
@@ -85,7 +103,7 @@ export const AppProcess: FC<AppProcessProps> = ({
                 onClick={() => {
                   onLinkClick();
                 }}
-              / >
+              />
             )}
           </div>
         </div>

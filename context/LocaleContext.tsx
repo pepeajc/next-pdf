@@ -51,12 +51,16 @@ export const LocaleContextProvider = (
   function getCurrentPage(): LocaleContextProps['page'] {
     return props.page;
   }
-  function setAppData(layOutData: LayOutProps, fieldSettData: FieldSets) {
+  function setAppData(layOutData: LayOutProps, fieldSettData: FieldSets, editIndex:number) {
     if (layOutData) {
       setGlobalData({
         ...globalData,
         globalLayOutProps: layOutData,
       });
+    }
+    if (editIndex > -1 && fieldSettData) {
+      globalData.globalFieldSets[editIndex] = fieldSettData;
+      return null;
     }
     if (fieldSettData) {
       globalData.globalFieldSets.push(fieldSettData);

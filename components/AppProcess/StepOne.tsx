@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Fieldset } from "../AppUI/Fieldset";
 import { LayOutProps } from ".";
+import { Button } from "../AppUI/Button";
 
 export interface StepOneProps {
   label?: string;
@@ -39,10 +40,6 @@ export const StepOne: FC<StepOneProps> = ({
     if (checkField(e.target.name) && !LayOutData) onStepReady();
     onOptionChange(e);
   };
-
-  if (LayOutData) {
-    console.log(fields);
-  }
 
   return (
     <>
@@ -83,6 +80,16 @@ export const StepOne: FC<StepOneProps> = ({
         ]}
         onOptionChange={onChecked}
       />
+      {LayOutData && (
+              <Button
+                type="button"
+                value="save"
+                label="Save"
+                onClick={() => {
+                  onStepReady();
+                }}
+              / >
+            )}
     </>
   );
 };
