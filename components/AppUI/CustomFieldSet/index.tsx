@@ -42,6 +42,22 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
     },
   };
 
+  const isEditable = (type: CustomFieldSetProps["type"], field?: string) => {
+    if (type === "title") {
+      return (
+        editIndex !== undefined &&
+        globalData.globalFieldSets[editIndex].value.text
+      );
+    }
+    if (type === "addition" || "subtraction" || "multiply") {
+      return (
+        editIndex !== undefined && field && globalData.globalFieldSets[editIndex].value[field]
+      );
+    }
+  };
+
+  console.log(isEditable("addition", "totalOperaciones"), "isEditable");
+
   // al editar actualizamos fielfValue y los datos del parent con updateValue()
   if (
     editIndex !== undefined &&
@@ -93,11 +109,9 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             type="text"
             options={[
               {
-                placeholder:
-                  editIndex !== undefined &&
-                  globalData.globalFieldSets[editIndex].value.text
-                    ? globalData.globalFieldSets[editIndex].value.text
-                    : placeholder || "Add title",
+                placeholder: isEditable(type)
+                  ? isEditable(type)
+                  : placeholder || "Add title",
                 label: "",
               },
             ]}
@@ -131,6 +145,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="¿Cuantas operaciones quieres?"
             name="totalOperaciones"
             type="select"
+            defaultValue={isEditable(type, "totalOperaciones")}
             options={[
               { value: "3", label: "3" },
               { value: "6", label: "6" },
@@ -146,6 +161,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="Número de Filas"
             name="filas"
             type="select"
+            defaultValue={isEditable(type, "filas")}
             options={[
               { value: "2", label: "2" },
               { value: "3", label: "3" },
@@ -159,6 +175,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="Dígitos por fila"
             name="digitos"
             type="select"
+            defaultValue={isEditable(type, "digitos")}
             options={[
               { value: "3", label: "3" },
               { value: "4", label: "4" },
@@ -177,6 +194,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="¿Cuantas operaciones quieres?"
             name="totalOperaciones"
             type="select"
+            defaultValue={isEditable(type, "totalOperaciones")}
             options={[
               { value: "3", label: "3" },
               { value: "6", label: "6" },
@@ -192,6 +210,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="Números del Multiplicando (Línea superior)"
             name="multiplicando"
             type="select"
+            defaultValue={isEditable(type, "multiplicando")}
             options={[
               { value: "2", label: "2" },
               { value: "3", label: "3" },
@@ -206,6 +225,7 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
             legend="Números del Multiplicandor (Línea Inferior)"
             name="multiplicador"
             type="select"
+            defaultValue={isEditable(type, "multiplicador")}
             options={[
               { value: "2", label: "2" },
               { value: "3", label: "3" },

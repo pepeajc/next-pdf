@@ -5,6 +5,7 @@ export interface FieldsetProps {
   name: string;
   type: "radio" | "checkbox" | "text" | "select";
   readOnly?: boolean;
+  defaultValue?: string | number;
   options: {
     value?: string;
     label: string;
@@ -23,6 +24,7 @@ export const Fieldset: FC<FieldsetProps> = ({
   options,
   onOptionChange,
   readOnly,
+  defaultValue,
 }) => {
   const ref = useRef(null);
   return (
@@ -63,6 +65,7 @@ export const Fieldset: FC<FieldsetProps> = ({
           ref={ref}
           onClick={(e) => onOptionChange(e)}
           disabled={readOnly}
+          defaultValue={defaultValue}
         >
           {options.map((option, index) => (
             <option key={`${option.value}-${index}`} value={option.value}>
