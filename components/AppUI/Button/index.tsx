@@ -4,6 +4,7 @@ export interface ButtonProps {
   label?: string;
   value: string;
   type: "button" | undefined | "submit" | "reset";
+  className?: string;
   onClick?: (
     event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLInputElement>
   ) => void;
@@ -14,13 +15,14 @@ export const Button: FC<ButtonProps> = ({
   type,
   value,
   onClick,
+  className,
 }) => {
   return (
     <button
       type={type}
       value={value}
       onClick={onClick}
-      className="bg-stone-700/30 text-white px-5 py-1 mx-auto block rounded hover:bg-white/70 hover:text-stone-600 hover:shadow-md"
+      className={`bg-stone-700/30 text-white px-5 py-1 mx-auto block rounded hover:bg-white/70 hover:text-stone-600 hover:shadow-md ${className}`}
     >
       {label}
     </button>

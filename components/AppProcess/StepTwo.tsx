@@ -36,7 +36,7 @@ export const StepTwo: FC<StepTwoProps> = ({
     setaddButton(false);
   };
 
-  if(getInitialView() !== '' && nextView === '' && editIndex !== undefined) {
+  if (getInitialView() !== "" && nextView === "" && editIndex !== undefined) {
     setNextView(getInitialView());
     setFielfValue(globalData.globalFieldSets[editIndex].value);
   }
@@ -57,19 +57,18 @@ export const StepTwo: FC<StepTwoProps> = ({
           key={"fieldset-init"}
         />
       )}
-      {(nextView) && (
+      {nextView && (
         <>
-          <button
+          <Button
             type="button"
             value="back"
+            label="Volver"
+            className="ml-0 mb-8"
             onClick={() => {
               setNextView("");
               resetInitialView();
             }}
-            className="bg-stone-700/30 text-white px-5 py-1 mb-8 block rounded hover:bg-white/70 hover:text-stone-600 hover:shadow-md"
-          >
-            Volver
-          </button>
+          />
           <CustomFieldSet
             type={nextView}
             currentRef={editIndex ? globalData.globalFieldSets.length + 1 : 0}
@@ -86,10 +85,14 @@ export const StepTwo: FC<StepTwoProps> = ({
             <Button
               type="button"
               value="add"
-              label="Add"
+              label={editIndex !== undefined ? "Edit" : "Add"}
               onClick={() => {
                 addFieldSet(nextView);
                 onStepReady();
+                if (editIndex !== undefined) {
+                  setNextView("");
+                  resetInitialView();
+                }
               }}
             />
           )}
