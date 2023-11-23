@@ -21,19 +21,45 @@ a {
   box-sizing: border-box;
 }
 
-.pdf_view,
 .app_view {
-  width: 30%;
+  width: 100%;
   height: 100%;
-
-  & iframe {
-    width: 100%;
-    height: 100%;
+  transition: width 0.3s ease-out;
+  &.--open{
+    width: 70%;
   }
 }
 
-.app_view {
-  width: 70%;
+.pdf_view {
+  width: 30%;
+  height: 100%;
+  overflow: hidden;  
+  transition: width 0.3s ease-out;
+
+  &.--hidden {
+    width: 0;
+    > button {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.1s, visibility 0.1s 0s;
+    }
+  }
+
+  > iframe {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+
+  > button {
+    position: fixed;
+    top:0;
+    left:30%;
+    opacity: 1;
+    visibility: visible;
+    z-index: 100;
+    transition: opacity 0.3s 0.3s, visibility 0.4s 0s;
+  }
 }
 
 .app-container {
@@ -70,6 +96,7 @@ a {
   animation: .45s ease-out slideBar;
   left: var(--bar-width);
   width: calc(100% - var(--bar-width));
+
   > div {
     opacity: 0;
     transition: .3s .1s opacity;

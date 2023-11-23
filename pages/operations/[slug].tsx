@@ -1,4 +1,5 @@
 import { AppPage } from "@/components/AppPage";
+import { Button } from "@/components/AppUI/Button";
 import { PdfPageProps } from "@/components/PdfPage";
 import { useLocaleContext } from "@/context/LocaleContext";
 import { pdfDataService } from "@/services/pdfDataService";
@@ -158,10 +159,11 @@ const View = () => {
 
   return (
     <div className="flex fixed w-full h-full">
-      <div className={viewPdf ? "pdf_view" : "hidden"}>
+      <div className={viewPdf ? "pdf_view" : "pdf_view --hidden"}>
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
+        <Button icon="close" type="button" value="" label="close" onClick={() => setViewPdf(false)} />
       </div>
-      <div className={!viewPdf ? 'w-full' : 'app_view relative'}>
+      <div className={!viewPdf ? 'app_view' : 'app_view --open relative'}>
         <AppPage onShowPdf={() => showPdfHandler(pdfDataService.getpdfData(globalData.globalFieldSets, globalData.globalLayOutProps))} process='init' />
       </div>
     </div>
