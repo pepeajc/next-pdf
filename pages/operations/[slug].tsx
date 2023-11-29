@@ -161,7 +161,7 @@ const View = () => {
     <div className="flex fixed w-full h-full">
       <div className={viewPdf ? "pdf_view" : "pdf_view --hidden"}>
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
-        <Button icon="close" type="button" value="" label="close" onClick={() => setViewPdf(false)} />
+        <Button icon="close" type="button" value="" label="close" apparience="icon" iconSize={1.3} onClick={() => setViewPdf(false)} />
       </div>
       <div className={!viewPdf ? 'app_view' : 'app_view --open relative'}>
         <AppPage onShowPdf={() => showPdfHandler(pdfDataService.getpdfData(globalData.globalFieldSets, globalData.globalLayOutProps))} process='init' />

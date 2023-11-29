@@ -100,6 +100,7 @@ export const AppProcess: FC<AppProcessProps> = ({
                 type="button"
                 value="preview"
                 label="Preview"
+                className="mt-6"
                 onClick={() => {
                   onLinkClick();
                 }}

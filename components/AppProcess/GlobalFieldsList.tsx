@@ -1,10 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { CustomFieldSetProps } from "../AppUI/CustomFieldSet";
 import React from "react";
 import { LayOutProps } from ".";
 import { useLocaleContext } from "@/context/LocaleContext";
-import Icon from "@mdi/react";
-import { mdiDrag } from "@mdi/js";
 import { Button } from "../AppUI/Button";
 
 export interface FieldSets {
@@ -20,7 +18,8 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
   onLayOutEdit,
   onOperationEdit,
 }) => {
-  const { globalData } = useLocaleContext();
+  const { globalData, editAppData } = useLocaleContext();
+  const [, updateState] = useState({});
   return (
     <>
       {globalData.globalLayOutProps?.pageTheme !== "" && (
@@ -61,7 +60,10 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
           </h3>
           {globalData.globalFieldSets?.map((fieldSet, index) => {
             return (
-              <div key={index} className="flex p-4 mb-8 flex-wrap items-center border-y-[1px] border-dashed border-stone-400">
+              <div
+                key={index}
+                className="flex p-4 flex-wrap items-center border-y-[1px] border-dashed border-stone-400"
+              >
                 <div className="flex mb-4 flex-[0_0_100%]">
                   <span className="capitalize mr-4 text-right">
                     Insertion Type:
@@ -88,7 +90,17 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
                     if (onOperationEdit) onOperationEdit(index);
                   }}
                 />
-                <Icon path={mdiDrag} size={1} />
+                <Button
+                  icon="delete"
+                  type="button"
+                  value=""
+                  label="delete"
+                  apparience="iconText"
+                  onClick={() => {
+                    editAppData(index, 'delete');                    
+                    updateState({});
+                  }}
+                />
               </div>
             );
           })}

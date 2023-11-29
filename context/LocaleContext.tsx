@@ -10,12 +10,14 @@ export interface ILocaleContext {
     globalLayOutProps?: LayOutProps | any;
   };
   setAppData: any;
+  editAppData: any;
 }
 
 export const LocaleContext = createContext<ILocaleContext>({
   getCurrentPage: () => "",
   globalData: { globalFieldSets: [], globalLayOutProps: undefined },
   setAppData: () => [],
+  editAppData: () => [],
 });
 
 type LocaleContextProps = {
@@ -66,6 +68,14 @@ export const LocaleContextProvider = (
       globalData.globalFieldSets.push(fieldSettData);
     }
   }
+  function editAppData(index: number, type: 'move' | 'delete') {
+    if (type === 'move') {
+      
+    }
+    if (type === 'delete') {
+      globalData.globalFieldSets.splice(index, 1);
+    }
+  }
 
   return (
     <LocaleContext.Provider
@@ -73,6 +83,7 @@ export const LocaleContextProvider = (
         getCurrentPage,
         globalData,
         setAppData,
+        editAppData,
       }}
     >
       {props.children}
