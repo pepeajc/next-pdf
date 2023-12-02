@@ -1,5 +1,6 @@
 import { LayOutProps } from "@/components/AppProcess";
 import { FieldSets, FieldsListProps } from "@/components/AppProcess/FieldsList";
+import { arrayMoveImmutable, arrayMoveMutable } from "@/utils/arrayMove";
 import { createContext, useContext, useState } from "react";
 import { PropsWithChildren } from "react";
 
@@ -68,9 +69,9 @@ export const LocaleContextProvider = (
       globalData.globalFieldSets.push(fieldSettData);
     }
   }
-  function editAppData(index: number, type: 'move' | 'delete') {
+  function editAppData(index: number, type: 'move' | 'delete', newIndex: number) {
     if (type === 'move') {
-      
+      arrayMoveMutable(globalData.globalFieldSets, index, newIndex);
     }
     if (type === 'delete') {
       globalData.globalFieldSets.splice(index, 1);

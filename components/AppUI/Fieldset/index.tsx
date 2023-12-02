@@ -6,6 +6,7 @@ export interface FieldsetProps {
   type: "radio" | "checkbox" | "text" | "select";
   readOnly?: boolean;
   defaultValue?: string | number;
+  apparience?: "withLegend" | "onlyText";
   options: {
     value?: string;
     label: string;
@@ -25,13 +26,22 @@ export const Fieldset: FC<FieldsetProps> = ({
   onOptionChange,
   readOnly,
   defaultValue,
+  apparience = "withLegend",
 }) => {
   const ref = useRef(null);
+
+  const fieldsetCSS: any = {
+    withLegend: "bg-white/30 p-8 rounded-xl mb-8 flex",
+    onlyText: "only-text",
+  };
+
   return (
-    <fieldset className="bg-white/30 p-8 rounded-xl mb-8 flex">
-      <legend className="text-sm font-semibold leading-6 text-gray-900">
-        {legend}
-      </legend>
+    <fieldset className={`${fieldsetCSS[apparience]}`}>
+      {legend && (
+        <legend className="text-sm font-semibold leading-6 text-gray-900">
+          {legend}
+        </legend>
+      )}
       {type !== "select" ? (
         options.map((option, index) => (
           <div
@@ -45,17 +55,23 @@ export const Fieldset: FC<FieldsetProps> = ({
               name={name}
               type={type}
               defaultChecked={option.checked}
-              className="focus:ring-indigo-600 mr-2"
               onClick={type !== "text" ? (e) => onOptionChange(e) : undefined}
               onKeyUp={type === "text" ? (e) => onOptionChange(e) : undefined}
               ref={ref}
               readOnly={readOnly}
               disabled={readOnly}
+              defaultValue={defaultValue}
+              className={
+                apparience === "onlyText"
+                  ? "w-10 h-7 p-2"
+                  : "focus:ring-indigo-600 mr-2"
+              }
             />
-
-            <label htmlFor={name} className="font-medium text-gray-900">
-              {option.label}
-            </label>
+            {option.label && (
+              <label htmlFor={name} className="font-medium text-gray-900">
+                {option.label}
+              </label>
+            )}
           </div>
         ))
       ) : (

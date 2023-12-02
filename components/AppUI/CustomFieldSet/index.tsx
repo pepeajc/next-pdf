@@ -56,8 +56,6 @@ export const CustomFieldSet: FC<CustomFieldSetProps> = ({
     }
   };
 
-  console.log(isEditable("addition", "totalOperaciones"), "isEditable");
-
   // al editar actualizamos fielfValue y los datos del parent con updateValue()
   if (
     editIndex !== undefined &&

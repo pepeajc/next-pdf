@@ -1,9 +1,16 @@
 import { FC } from "react";
 import Icon from "@mdi/react";
-import { mdiDrag, mdiDelete, mdiClose } from "@mdi/js";
+import {
+  mdiDrag,
+  mdiDelete,
+  mdiClose,
+  mdiArrowAll,
+  mdiReorderHorizontal,
+  mdiFilePdfBox,
+} from "@mdi/js";
 
 export interface SiteIconProps {
-  iconPath: "close" | "delete" | "";
+  iconPath: "close" | "delete" | "move" | "drag" | "reorder" | "pdf";
   size?: number;
 }
 
@@ -11,6 +18,9 @@ const iconProps: any = {
   close: mdiClose,
   drag: mdiDrag,
   delete: mdiDelete,
+  move: mdiArrowAll,
+  reorder: mdiReorderHorizontal,
+  pdf: mdiFilePdfBox,
 };
 
 export const SiteIcon: FC<SiteIconProps> = ({ iconPath, size }) => {
@@ -19,5 +29,5 @@ export const SiteIcon: FC<SiteIconProps> = ({ iconPath, size }) => {
 
 SiteIcon.defaultProps = {
   iconPath: "close",
-  size: 1,
+  size: 0.8,
 };

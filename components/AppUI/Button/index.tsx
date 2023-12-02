@@ -19,9 +19,9 @@ const getButtonApparince = (buttonType: ButtonProps["apparience"] = "default") =
     base:
       "bg-teal-700 text-white text-xs tracking-[.1em] hover:bg-teal-600 hover:text-teal-100 hover:shadow-[1px_2px_3px_rgb(2_39_36_/_60%)] cursor-pointer",
     default:
-      "px-5 py-1 mx-2 rounded uppercase h-[30px]",
+      "px-5 py-1 mx-1 rounded uppercase h-[30px]",
     icon: "flex items-center justify-center px-0 h-[40px] w-[40px] m-0",
-    iconText: "flex items-center rounded w-auto h-[30px] pl-1 pr-2 uppercase",
+    iconText: "flex items-center rounded w-auto h-[30px] mx-1 pl-1 pr-2 uppercase",
   };
   return `${buttonCSS["base"]} ${buttonCSS[buttonType]}`;
 };
@@ -34,7 +34,7 @@ export const Button: FC<ButtonProps> = ({
   className = "",
   apparience = "default",
   icon,
-  iconSize = 1,
+  iconSize,
 }) => {
   return (
     <button

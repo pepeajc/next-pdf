@@ -86,7 +86,7 @@ export const AppProcess: FC<AppProcessProps> = ({
       </div>
       {globalData.globalLayOutProps.pageType && (
         <div className="preview-bar" ref={barRef}>
-          <div className="bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg overflow-y-auto">
+          <div className="grid grid-rows-auto content-start bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg overflow-y-auto">
             <GlobalFieldsList
               onLayOutEdit={() => {
                 setNextStep("layout-edit");
@@ -100,7 +100,10 @@ export const AppProcess: FC<AppProcessProps> = ({
                 type="button"
                 value="preview"
                 label="Preview"
-                className="mt-6"
+                className="mt-6 pl-2 pr-2 py-6 justify-self-center"
+                icon="pdf"
+                iconSize={1.2}
+                apparience="iconText"
                 onClick={() => {
                   onLinkClick();
                 }}

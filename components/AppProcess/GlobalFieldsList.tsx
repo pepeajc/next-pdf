@@ -4,6 +4,9 @@ import React from "react";
 import { LayOutProps } from ".";
 import { useLocaleContext } from "@/context/LocaleContext";
 import { Button } from "../AppUI/Button";
+import { Fieldset } from "../AppUI/Fieldset";
+import SortableList, { SortableItem } from "react-easy-sort";
+//import { arrayMoveImmutable } from 'array-move'
 
 export interface FieldSets {
   type: CustomFieldSetProps["type"];
@@ -19,7 +22,13 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
   onOperationEdit,
 }) => {
   const { globalData, editAppData } = useLocaleContext();
-  const [, updateState] = useState({});
+  const [orderOperation, setOrderOperation] = useState({});
+
+  const onSortEnd = (oldIndex: number, newIndex: number) => {
+    editAppData(oldIndex, 'move', newIndex);
+    setOrderOperation({});
+  }
+
   return (
     <>
       {globalData.globalLayOutProps?.pageTheme !== "" && (
@@ -58,52 +67,82 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
           <h3 className="m-6 text-center uppercase tracking-wider font-bold text-xl text-teal-900">
             Campos añadidos
           </h3>
-          {globalData.globalFieldSets?.map((fieldSet, index) => {
-            return (
-              <div
-                key={index}
-                className="flex p-4 flex-wrap items-center border-y-[1px] border-dashed border-stone-400"
-              >
-                <div className="flex mb-4 flex-[0_0_100%]">
-                  <span className="capitalize mr-4 text-right">
-                    Insertion Type:
-                  </span>
-                  <p className="capitalize font-bold">{fieldSet.type}</p>
+          <SortableList
+            onSortEnd={onSortEnd}
+            className="list"
+            draggedItemClassName="dragged"
+          >
+            {globalData.globalFieldSets?.map((item, index) => (
+              <SortableItem key={"SortableItem" + index}>
+                <div
+                  key={index}
+                  className="flex py-2 mb-4 flex-wrap items-center border-y-[1px] border-dashed border-stone-400"
+                >
+                  <div className="flex mb-4 flex-[0_0_100%]">
+                    <span className="capitalize mr-4 text-right">
+                      Insertion Type:
+                    </span>
+                    <p className="capitalize font-bold">{item.type}</p>
+                  </div>
+                  <ul className="flex flex-[1_1_0] mb-2">
+                    {Object.keys(item.value).map((key, index) => {
+                      return (
+                        <li key={`${key}-${index}`} className="flex mr-4">
+                          <span className="capitalize mr-2 text-right">
+                            {key}:
+                          </span>
+                          <p className="font-bold">{item.value[key]}</p>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="flex w-full justify-end">
+                    <Button
+                      type="button"
+                      value="edit"
+                      label="Edit"
+                      onClick={() => {
+                        if (onOperationEdit) onOperationEdit(index);
+                      }}
+                    />
+                    <Button
+                      icon="delete"
+                      type="button"
+                      value=""
+                      label="delete"
+                      apparience="iconText"
+                      onClick={() => {
+                        editAppData(index, "delete");
+                        setOrderOperation({});
+                      }}
+                    />
+                    <Fieldset
+                      name="order"
+                      type="text"
+                      defaultValue={index.toString()}
+                      apparience="onlyText"
+                      options={[
+                        {
+                          placeholder: index.toString(),
+                          label: "",
+                        },
+                      ]}
+                      onOptionChange={(e) => null}
+                    />
+                  </div>
                 </div>
-                <ul className="flex flex-[1_1_0]">
-                  {Object.keys(fieldSet.value).map((key, index) => {
-                    return (
-                      <li key={`${key}-${index}`} className="flex mr-4">
-                        <span className="capitalize mr-2 text-right">
-                          {key}:
-                        </span>
-                        <p className="font-bold">{fieldSet.value[key]}</p>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <Button
-                  type="button"
-                  value="edit"
-                  label="Edit"
-                  onClick={() => {
-                    if (onOperationEdit) onOperationEdit(index);
-                  }}
-                />
-                <Button
-                  icon="delete"
-                  type="button"
-                  value=""
-                  label="delete"
-                  apparience="iconText"
-                  onClick={() => {
-                    editAppData(index, 'delete');                    
-                    updateState({});
-                  }}
-                />
-              </div>
-            );
-          })}
+              </SortableItem>
+            ))}
+          </SortableList>
+          <Button
+            icon="reorder"
+            type="button"
+            value="reorder"
+            label="reorder"
+            apparience="iconText"
+            className="justify-self-end"
+            onClick={() => {}}
+          />
         </>
       )}
     </>
