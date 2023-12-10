@@ -1,0 +1,12 @@
+.tabs_list {
+    @apply bg-teal-600/10 pt-6 relative border-teal-600;
+    border-bottom-width: 4px;
+    display: flex;
+    z-index: 1;
+    
+}
+
+.tabs_list :global(body) {
+    --tabs-height: 160px;
+}
+

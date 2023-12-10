@@ -145,9 +145,9 @@ const defaultData: PdfPageProps = {
 const View = () => {
   const [client, setClient] = useState(false);
   const [viewPdf, setViewPdf] = useState(false);
-  const [pdfData, setpdfData] =  useState<PdfPageProps>(defaultData);
+  const [pdfData, setpdfData] = useState<PdfPageProps>(defaultData);
   const { globalData } = useLocaleContext();
-  
+
   const showPdfHandler = (data: PdfPageProps) => {
     setViewPdf(true);
     setpdfData(data);
@@ -161,10 +161,28 @@ const View = () => {
     <div className="flex fixed w-full h-full">
       <div className={viewPdf ? "pdf_view" : "pdf_view --hidden"}>
         <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
-        <Button icon="close" type="button" value="" label="close" apparience="icon" iconSize={1.3} onClick={() => setViewPdf(false)} />
+        <Button
+          icon="close"
+          type="button"
+          value=""
+          label="close"
+          apparience="icon"
+          iconSize={1.3}
+          onClick={() => setViewPdf(false)}
+        />
       </div>
-      <div className={!viewPdf ? 'app_view' : 'app_view --open relative'}>
-        <AppPage onShowPdf={() => showPdfHandler(pdfDataService.getpdfData(globalData.globalFieldSets, globalData.globalLayOutProps))} process='init' />
+      <div className={!viewPdf ? "app_view" : "app_view --open relative"}>
+        <AppPage
+          onShowPdf={() =>
+            showPdfHandler(
+              pdfDataService.getpdfData(
+                globalData.globalFieldSets,
+                globalData.globalLayOutProps
+              )
+            )
+          }
+          process="init"
+        />
       </div>
     </div>
   );

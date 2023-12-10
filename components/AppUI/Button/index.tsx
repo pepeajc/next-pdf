@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { SiteIcon, SiteIconProps } from "../SiteIcon";
 
-export interface ButtonProps {
+export interface ButtonProps extends React.PropsWithChildren {
   label?: string;
   value: string;
   type: "button" | undefined | "submit" | "reset";
@@ -35,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
   apparience = "default",
   icon,
   iconSize,
+  children,
 }) => {
   return (
     <button
@@ -45,6 +46,7 @@ export const Button: FC<ButtonProps> = ({
     >
       {icon && <SiteIcon iconPath={icon} size={iconSize} />}
       {apparience !== "icon" && label}
+      {children}
     </button>
   );
 };

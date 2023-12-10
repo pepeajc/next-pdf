@@ -31,7 +31,7 @@ export const Fieldset: FC<FieldsetProps> = ({
   const ref = useRef(null);
 
   const fieldsetCSS: any = {
-    withLegend: "bg-white/30 p-8 rounded-xl mb-8 flex",
+    withLegend: "bg-white/30 rounded-xl mb-8 flex flex-wrap p-[1.6rem_1rem] md:p-8",
     onlyText: "only-text",
   };
 
@@ -46,7 +46,7 @@ export const Fieldset: FC<FieldsetProps> = ({
         options.map((option, index) => (
           <div
             key={`${option.value}-${index}`}
-            className="flex h-6 items-center mx-4"
+            className="flex flex-[0_0_100%] md:flex-[1_0_0] items-center mb-8 h-6"
           >
             <input
               id={option.value}

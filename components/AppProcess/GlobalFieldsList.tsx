@@ -25,9 +25,9 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
   const [orderOperation, setOrderOperation] = useState({});
 
   const onSortEnd = (oldIndex: number, newIndex: number) => {
-    editAppData(oldIndex, 'move', newIndex);
+    editAppData(oldIndex, "move", newIndex);
     setOrderOperation({});
-  }
+  };
 
   return (
     <>
@@ -36,8 +36,8 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
           <h3 className="mb-6 text-center uppercase tracking-wider font-bold text-xl text-teal-900">
             Layout config
           </h3>
-          <div className="flex bg-white/40 p-4 mb-4 border-y-[1px] border-dashed border-stone-400">
-            <ul className="flex flex-[1_1_0]">
+          <div className="flex flex-col md:flex-row bg-white/40 p-4 mb-4 border-y-[1px] border-dashed border-stone-400">
+            <ul className="flex flex-col md:flex-row flex-[1_1_0]">
               <li className="flex-[1_1_0] flex items-center">
                 <span className="uppercase mr-4 text-right">Theme:</span>
                 <p className="uppercase font-bold">
@@ -73,10 +73,11 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
             draggedItemClassName="dragged"
           >
             {globalData.globalFieldSets?.map((item, index) => (
-              <SortableItem key={"SortableItem" + index}>
+              <SortableItem key={"sortable-item" + index}>
                 <div
                   key={index}
-                  className="flex py-2 mb-4 flex-wrap items-center border-y-[1px] border-dashed border-stone-400"
+                  className="flex py-2 mb-4 flex-wrap items-center border-y-[1px] border-dashed border-stone-400
+                   hover:bg-teal-500/10 hover:cursor-move active:bg-teal-500/20" 
                 >
                   <div className="flex mb-4 flex-[0_0_100%]">
                     <span className="capitalize mr-4 text-right">
