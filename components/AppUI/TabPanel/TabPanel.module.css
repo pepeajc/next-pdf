@@ -10,3 +10,16 @@
     --tabs-height: 160px;
 }
 
+.tabPanel {
+    display:none;
+    width: 100%;
+}
+
+.tabPanelActive {
+    display:inline-block;
+}
+
+.-flex {
+    display:inline-flex;
+}
+

@@ -51,7 +51,7 @@ export const AppProcess: FC<AppProcessProps> = ({
 
   return (
     <>
-      <div className="app-bar" ref={barRef}>
+      <div className={`app-bar -${nextStep}`} ref={barRef}>
         {nextStep?.includes("layout") && (
           <StepOne
             onOptionChange={onOptionChange}
@@ -86,7 +86,7 @@ export const AppProcess: FC<AppProcessProps> = ({
       </div>
       {globalData.globalLayOutProps.pageType && (
         <div className="preview-bar" ref={barRef}>
-          <div className="grid grid-rows-auto content-start bg-white/90 aspect-[2/3] max-h-[96%] mx-auto my-6 p-6 shadow-lg overflow-y-auto">
+          <div className="preview-bar__wrapper">
             <GlobalFieldsList
               onLayOutEdit={() => {
                 setNextStep("layout-edit");
@@ -95,20 +95,6 @@ export const AppProcess: FC<AppProcessProps> = ({
                 setNextStep("content-edit-" + index);
               }}
             />
-            {globalData.globalFieldSets.length > 0 && onLinkClick && (
-              <Button
-                type="button"
-                value="preview"
-                label="Preview"
-                className="mt-6 pl-2 pr-2 py-6 justify-self-center"
-                icon="pdf"
-                iconSize={1.2}
-                apparience="iconText"
-                onClick={() => {
-                  onLinkClick();
-                }}
-              />
-            )}
           </div>
         </div>
       )}

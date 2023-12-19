@@ -1,5 +1,3 @@
-import { AppPage } from "@/components/AppPage";
-import { FieldsListProps } from "@/components/AppProcess/FieldsList";
 import { PdfPageProps } from "@/components/PdfPage";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -146,8 +144,6 @@ const View = () => {
   const [pdfData, setpdfData] = useState<PdfPageProps>(defaultData);
 
   const showPdfHandler = (data: PdfPageProps) => {
-    // const storage:string = localStorage.getItem("pdfContent") || '';
-    // const activeData = storage !== '' ? JSON.parse(storage) : defaultData;
     setpdfData(defaultData);
     setViewPdf(true);
   };

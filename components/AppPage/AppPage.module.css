@@ -1,0 +1,4 @@
+.TabPanelFlex {
+    @apply md:flex;
+    height: calc(100% - 58px);
+}

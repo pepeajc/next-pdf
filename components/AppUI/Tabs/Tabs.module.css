@@ -3,7 +3,14 @@
     border-bottom-width: 4px;
     display: flex;
     z-index: 1;
-    
+}
+
+.tabButton {
+    @apply rounded-b-none;
+}
+
+.tabItem_active .tabButton {
+    @apply bg-teal-700/40;
 }
 
 .tabs_list :global(body) {

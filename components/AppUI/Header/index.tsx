@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-10 bg-white/30 shadow-md">
       <nav
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="flex items-center justify-between px-4 py-3"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">

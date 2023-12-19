@@ -6,6 +6,8 @@ import Link from "next/link";
 import { AppBackGround } from "../AppBackGround";
 import { Tabs } from "../AppUI/Tabs";
 import { TabPanel } from "../AppUI/TabPanel";
+import { useLocaleContext } from "@/context/LocaleContext";
+import styles from "./AppPage.module.css";
 
 interface AppPageProps extends AppProcessProps {
   onShowPdf?: () => void;
@@ -13,34 +15,36 @@ interface AppPageProps extends AppProcessProps {
 }
 
 export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = "init" }) => {
+  const { globalData } = useLocaleContext();
   return (
     <>
       <Header />
       <AppBackGround />
       <div className="app-container h-[100vh]">
-        <Tabs
-          tabList={[
-            {
-              value: "Ops panel",
-              type: "button",
-              label: "Edition",
-            },
-            {
-              value: "title",
-              type: "button",
-              label: "LayOut",
-            },
-            {
-              value: "title",
-              type: "button",
-              label: "PDF",
-              onClick: () => console.log("test"),
-            },
-          ]}
-        />
-        <TabPanel>TabPanel</TabPanel>
         {process === "init" && onShowPdf && (
-          <AppProcess type={process} onLinkClick={() => onShowPdf()} />
+          <>
+            <Tabs
+              tabList={[
+                {
+                  value: "layout",
+                  type: "button",
+                  label: "Edit Layout",
+                  active: true,
+                },
+                
+                {
+                  value: "pdf",
+                  type: "button",
+                  label: "PDF",
+                  onTabActive: () => onShowPdf(),
+                  disabled: globalData.globalFieldSets.length > 0,
+                },
+              ]}
+            />
+            <TabPanel tabIndex={0} className={styles.TabPanelFlex}>
+              <AppProcess type={process} onLinkClick={() => onShowPdf()} />
+            </TabPanel>
+          </>
         )}
         {process === "selection" && (
           <div className="flex flex-col justify-center h-full max-w-[800px] mx-auto">

@@ -1,5 +1,6 @@
 import { AppPage } from "@/components/AppPage";
 import { Button } from "@/components/AppUI/Button";
+import { TabPanel } from "@/components/AppUI/TabPanel";
 import { PdfPageProps } from "@/components/PdfPage";
 import { useLocaleContext } from "@/context/LocaleContext";
 import { pdfDataService } from "@/services/pdfDataService";
@@ -158,32 +159,23 @@ const View = () => {
   }, []);
 
   return (
-    <div className="flex fixed w-full h-full">
-      <div className={viewPdf ? "pdf_view" : "pdf_view --hidden"}>
-        <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
-        <Button
-          icon="close"
-          type="button"
-          value=""
-          label="close"
-          apparience="icon"
-          iconSize={1.3}
-          onClick={() => setViewPdf(false)}
-        />
-      </div>
-      <div className={!viewPdf ? "app_view" : "app_view --open relative"}>
-        <AppPage
-          onShowPdf={() =>
-            showPdfHandler(
-              pdfDataService.getpdfData(
-                globalData.globalFieldSets,
-                globalData.globalLayOutProps
+    <div className="fixed w-full h-full">
+      <TabPanel tabIndex={1} className={viewPdf ? "pdf_view" : "pdf_view --hidden"}>
+          <InvoicePDF viewPdf={viewPdf} pdfData={pdfData} />
+      </TabPanel>
+        <div className={!viewPdf ? "app_view" : "app_view --open relative"}>
+          <AppPage
+            onShowPdf={() =>
+              showPdfHandler(
+                pdfDataService.getpdfData(
+                  globalData.globalFieldSets,
+                  globalData.globalLayOutProps
+                )
               )
-            )
-          }
-          process="init"
-        />
-      </div>
+            }
+            process="init"
+          />
+        </div>
     </div>
   );
 };
