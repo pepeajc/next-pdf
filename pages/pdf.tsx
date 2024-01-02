@@ -12,8 +12,6 @@ import {
   Line,
 } from "@react-pdf/renderer";
 
-const viewPdf = false;
-
 import { useState, useEffect } from "react";
 
 const PDF = ({ pdfData }: { pdfData: PdfPageProps }) => {
@@ -24,7 +22,7 @@ const PDF = ({ pdfData }: { pdfData: PdfPageProps }) => {
   );
 };
 const PDFView = ({
-  viewPdf = true,
+  viewPdf = false,
   pdfData,
 }: {
   viewPdf?: boolean;
