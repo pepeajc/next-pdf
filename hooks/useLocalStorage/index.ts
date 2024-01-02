@@ -12,8 +12,8 @@
 // 	return styles;
 // };
 
-// const useLocalStorage = (styles: any) => {
-// 	return { platformStyles: !isAmp ? styles : transformStylesToAmp(styles) };
-// };
+const useLocalStorage = (styles: any) => {
+	return styles;
+}
 
-// export default useLocalStorage;
+export default useLocalStorage;

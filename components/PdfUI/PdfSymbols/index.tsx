@@ -1,8 +1,9 @@
+import { CustomFieldSetProps } from "@/components/AppUI/CustomFieldSet";
 import { StyleSheet, Path, Svg } from "@react-pdf/renderer";
 import { FC } from "react";
 
 interface PdfSymbolsProps {
-  variation?: "addition" | "subtraction" | "multiply";
+  variation?: CustomFieldSetProps["type"];
   width?: string;
   height?: string;
   color?: string;

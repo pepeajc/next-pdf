@@ -5,7 +5,7 @@ import { emitter } from "@/lib/EventBus";
 
 interface TabsListProps extends ButtonProps {
   active?: boolean;
-  onTabActive?: () => void;
+  onTabActive: () => void;
   disabled?: boolean;
 }
 
@@ -44,7 +44,7 @@ export const Tabs: FC<TabsProps> = ({
         tabName,
       },
     });
-    if (tabListData[tabIndex].onTabActive) tabListData[tabIndex]?.onTabActive();
+    tabListData[tabIndex]?.onTabActive();
   };
 
   if (!clicked)

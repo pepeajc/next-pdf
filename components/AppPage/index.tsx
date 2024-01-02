@@ -30,6 +30,7 @@ export const AppPage: FC<AppPageProps> = ({ onShowPdf, process = "init" }) => {
                   type: "button",
                   label: "Edit Layout",
                   active: true,
+                  onTabActive: () => null,
                 },
                 
                 {

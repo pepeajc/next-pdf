@@ -17,7 +17,7 @@ interface useScriptProps {
 	script: Script;
 	appendHead: boolean;
 	onLoad: () => void;
-	onError: (error) => void;
+	onError: (error:any) => void;
 }
 interface ScriptCache {
 	[key: string]: 'loading' | 'ready' | 'error';
@@ -36,9 +36,9 @@ const loadScript = (script: Script, appendHead: boolean): Promise<void> => {
 		} else if (isScriptLoading) {
 			const resolveOnLoad = () => {
 				resolve();
-				scriptElement.removeEventListener('load', resolveOnLoad);
+				scriptElement?.removeEventListener('load', resolveOnLoad);
 			};
-			scriptElement.addEventListener('load', resolveOnLoad);
+			scriptElement?.addEventListener('load', resolveOnLoad);
 		} else {
 			const el: HTMLScriptElement = document.createElement('script');
 			el.src = script.src;

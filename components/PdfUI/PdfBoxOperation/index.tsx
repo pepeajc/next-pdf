@@ -7,6 +7,7 @@ import ReactPDF, {
 } from "@react-pdf/renderer";
 import { FC } from "react";
 import { PdfSymbols } from "../PdfSymbols";
+import { CustomFieldSetProps } from "@/components/AppUI/CustomFieldSet";
 
 interface PdfBoxOperationProps {
   title: string;
@@ -15,7 +16,7 @@ interface PdfBoxOperationProps {
 }
 
 export interface operationProps {
-  type?: "addition" | "subtraction" | "multiply";
+  type?: CustomFieldSetProps["type"];
   rows?: {
     digits: number;
   }[];
