@@ -31,7 +31,7 @@ export const Fieldset: FC<FieldsetProps> = ({
   const ref = useRef(null);
 
   const fieldsetCSS: any = {
-    withLegend: "bg-white/30 rounded-xl mb-8 flex flex-wrap p-[1.6rem_1rem] md:p-8",
+    withLegend: "bg-white/30 rounded-xl mb-8 flex flex-wrap p-[1.6rem_1rem] md:p-8 self-stretch",
     onlyText: "only-text",
   };
 

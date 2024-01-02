@@ -85,6 +85,9 @@ export const StepOne: FC<StepOneProps> = ({
                 type="button"
                 value="save"
                 label="Save"
+                icon="check"
+                apparience="iconText"
+                className="md:"
                 onClick={() => {
                   onStepReady();
                 }}

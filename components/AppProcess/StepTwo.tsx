@@ -64,6 +64,8 @@ export const StepTwo: FC<StepTwoProps> = ({
             value="back"
             label="Volver"
             className="ml-0 mb-8"
+            icon="back"
+            apparience="iconText"
             onClick={() => {
               setNextView("");
               resetInitialView();
@@ -86,6 +88,9 @@ export const StepTwo: FC<StepTwoProps> = ({
               type="button"
               value="add"
               label={editIndex !== undefined ? "Edit" : "Add"}
+              icon="add"
+              apparience="iconText"
+              className="md:self-end"
               onClick={() => {
                 addFieldSet(nextView);
                 onStepReady();

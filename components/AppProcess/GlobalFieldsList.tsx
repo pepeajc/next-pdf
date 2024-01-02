@@ -37,7 +37,7 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
             Layout config
           </h3>
           <div className="flex flex-col md:flex-row bg-white/40 py-4 mb-4 border-y-[1px] border-dashed border-stone-400">
-            <ul className="flex gap-x-2 mb-2">
+            <ul className="flex gap-x-2 mb-2 md:flex-[1_0_0]">
               <li className="flex">
                 <span className="uppercase mr-1 text-right">Theme:</span>
                 <p className="uppercase font-bold">
@@ -55,6 +55,8 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
               type="button"
               value="edit"
               label="Edit"
+              icon="edit"
+              apparience="iconText"
               onClick={() => {
                 if (onLayOutEdit) onLayOutEdit(globalData.globalLayOutProps);
               }}
@@ -100,6 +102,8 @@ export const GlobalFieldsList: FC<GlobalFieldsListProps> = ({
                       type="button"
                       value="edit"
                       label="Edit"
+                      icon="edit"
+                      apparience="iconText"
                       onClick={() => {
                         if (onOperationEdit) onOperationEdit(index);
                       }}

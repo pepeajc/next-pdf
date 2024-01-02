@@ -9,8 +9,12 @@
     @apply rounded-b-none;
 }
 
+.tabItem .tabButton {
+    @apply bg-teal-600/30 text-teal-700 hover:shadow-none;
+}
+
 .tabItem_active .tabButton {
-    @apply bg-teal-700/40;
+    @apply bg-teal-600 hover:shadow-none;
 }
 
 .tabs_list :global(body) {
