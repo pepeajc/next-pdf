@@ -45,14 +45,14 @@ a {
   &.--hidden {
     width: 100%;
 
-    >button {
+    > button {
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.1s, visibility 0.1s 0s;
     }
   }
 
-  >iframe {
+  > iframe {
     width: 100%;
     height: 100%;
     opacity: 1;
