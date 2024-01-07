@@ -19,12 +19,10 @@ const PDFView = ({
   pdfData: PdfPageProps;
 }) => {
   const [client, setClient] = useState(false);
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     setClient(true);
+    setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
   }, []);
 
   if (viewPdf) {
