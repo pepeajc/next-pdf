@@ -14,7 +14,7 @@ export interface FieldsetProps {
     checked?: boolean | undefined;
   }[];
   onOptionChange: (
-    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLInputElement>
+    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
   ) => void;
 }
 
@@ -79,7 +79,7 @@ export const Fieldset: FC<FieldsetProps> = ({
           name={name}
           id={name}
           ref={ref}
-          onClick={(e) => onOptionChange(e)}
+          onChange={(e) => onOptionChange(e)}
           disabled={readOnly}
           defaultValue={defaultValue}
         >
